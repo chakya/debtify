@@ -1,6 +1,6 @@
 {
   "name": "debtify",
-  "app_id": "d6058a38",
+  "app_id": "db784c43",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
