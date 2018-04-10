@@ -41,7 +41,10 @@ export class DebtCalcPage {
       }
     }
     else if(char=='='){
-      this.amountDisplay=eval(this.prevNum+this.operator+this.currNum)   
+      this.currNum =this.amountDisplay
+      this.amountDisplay=eval(this.prevNum+this.operator+this.currNum)  
+      console.log(this.prevNum+this.operator+this.currNum)    
+      this.operator='' 
     }
 
     //if operator was pressed
