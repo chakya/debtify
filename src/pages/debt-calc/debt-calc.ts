@@ -29,9 +29,6 @@ export class DebtCalcPage {
   }
 
   updAmount(char:string){
-    if (this.amountDisplay.length<=12){
-      return
-    }
     if (this.isNumber(char)){
       //keep adding number
       if( !this.newEntry){
