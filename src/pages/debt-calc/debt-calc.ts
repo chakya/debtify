@@ -42,7 +42,13 @@ export class DebtCalcPage {
     }
     else if(char=='='){
       this.currNum =this.amountDisplay
-      this.amountDisplay=eval(this.prevNum+this.operator+this.currNum)  
+      try {
+        this.amountDisplay=eval(this.prevNum+this.operator+this.currNum)  
+    }
+    catch(err) {
+        this.amountDisplay='err'
+        this.reset()
+    }
       console.log(this.prevNum+this.operator+this.currNum)    
       this.operator='' 
     }
@@ -64,8 +70,27 @@ export class DebtCalcPage {
       this.newEntry=true;
     }
     }
+
+    if (!isFinite(parseInt(this.amountDisplay))){
+      this.reset()
+    }
   }
 
+  reset(){
+    this.newEntry=true
+    this.prevNum=''
+    this.currNum=''
+    this.operator=''
+  }
+
+  clear(){
+    this.amountDisplay='0'
+    this.reset()
+  }
+
+  del(){
+    this.amountDisplay=this.amountDisplay.substring(0, this.amountDisplay.length - 1);
+  }
   isNumber(char){
     var numbList=['0','1','2','3','4','5','6','7','8','9','.']
     var index=numbList.indexOf(char)

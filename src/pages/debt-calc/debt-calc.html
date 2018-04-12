@@ -13,36 +13,45 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content >
 
     <!-- <ion-input type="text" [(ngModel)]='amountDisplay'></ion-input> -->
 
-    <div align="right" style="height:20%; width:100%; font-size:80px; position:absolute;" >{{amountDisplay}}</div>
-    <div style="height:20%; width:100%; font-size:60px; color:grey;" >{{operator}}</div>
+    <div align="right" style="height:20%; width:100%; font-size:80px; position:absolute; padding:3rem" >{{amountDisplay}}</div>
+    <div style="height:20%; width:100%; font-size:60px; color:grey; padding:3rem;" >{{operator}}</div>
+
+
   <div  style="position:absolute; bottom:0px; width:100%; font-size:50px !important;">
+      <ion-grid no-padding>
+    <ion-row wrap style="background-color:black">
+        <ion-col width-50  col-6 ><button (click)="clear()" ion-button color="dark" style="color:#961d1d">C</button></ion-col>
+       <ion-col width-25  col-3 ><button  (click)="updAmount('')"  ion-button color="dark">%</button></ion-col>
+        <ion-col width-25  col-3 ><button (click)="updAmount('/')"ion-button color="stable">/</button></ion-col>
+      </ion-row>
       <ion-row wrap style="background-color:black">
-        <ion-col align-self-stretch width-25><button (click)="updAmount('1')" class="col-3" ion-button color="dark">1</button></ion-col>
+        <ion-col width-25><button (click)="updAmount('1')" class="col-3" ion-button color="dark">1</button></ion-col>
         <ion-col width-25><button (click)="updAmount('2')" class="col-3" ion-button color="dark">2</button></ion-col>
         <ion-col width-25><button (click)="updAmount('3')" class="col-3" ion-button color="dark">3</button></ion-col>
-        <ion-col width-25><button (click)="updAmount('/')" class="col-3" ion-button color="dark">/</button></ion-col>
+        <ion-col width-25><button (click)="updAmount('*')" class="col-3" ion-button color="stable">*</button></ion-col>
       </ion-row>
       <ion-row wrap style="background-color:black">
           <ion-col width-25><button (click)="updAmount('4')" class="col-3" ion-button color="dark">4</button></ion-col>
           <ion-col width-25><button (click)="updAmount('5')" class="col-3" ion-button color="dark">5</button></ion-col>
           <ion-col width-25><button (click)="updAmount('6')" class="col-3" ion-button color="dark">6</button></ion-col>
-          <ion-col width-25><button (click)="updAmount('*')" class="col-3" ion-button color="dark">*</button></ion-col>
+          <ion-col width-25><button (click)="updAmount('-')" class="col-3" ion-button color="stable">-</button></ion-col>
         </ion-row>
         <ion-row wrap style="background-color:black">
             <ion-col width-25><button (click)="updAmount('7')" class="col-3" ion-button color="dark">7</button></ion-col>
             <ion-col width-25><button (click)="updAmount('8')" class="col-3" ion-button color="dark">8</button></ion-col>
             <ion-col width-25><button (click)="updAmount('9')" class="col-3" ion-button color="dark">9</button></ion-col>
-            <ion-col width-25><button (click)="updAmount('-')" class="col-3" ion-button color="dark">-</button></ion-col>
+            <ion-col width-25><button (click)="updAmount('+')" class="col-3" ion-button color="stable">+</button></ion-col>
           </ion-row>
         <ion-row wrap style="background-color:black">
             <ion-col width-25><button (click)="updAmount('.')" class="col-3" ion-button color="dark">.</button></ion-col>
             <ion-col width-25><button (click)="updAmount('0')" class="col-3" ion-button color="dark">0</button></ion-col>
-            <ion-col width-25><button (click)="updAmount('=')" class="col-3" ion-button color="dark">=</button></ion-col>
-            <ion-col width-25><button (click)="updAmount('+')" class="col-3" ion-button color="dark">+</button></ion-col>
+            <ion-col width-25><button (click)="del()" class="col-3" ion-button color="dark"><ion-icon name="backspace"></ion-icon></button></ion-col>
+            <ion-col width-25><button (click)="updAmount('=')" class="col-3" ion-button color="primary">=</button></ion-col>
           </ion-row>
+        </ion-grid>
     </div>
 </ion-content>
