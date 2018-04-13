@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { DebtCalcPage } from '../debt-calc/debt-calc';
 
 @Component({
   selector: 'page-home',
@@ -11,4 +12,7 @@ export class HomePage {
 
   }
 
+  openCalc(){
+    this.navCtrl.push(DebtCalcPage);
+  }
 }

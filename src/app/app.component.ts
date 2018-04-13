@@ -13,7 +13,7 @@ import { DebtCalcPage } from '../pages/debt-calc/debt-calc';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = DebtCalcPage;
+  rootPage: any = HomePage;
 
   pages: Array<{title: string, component: any}>;
 
