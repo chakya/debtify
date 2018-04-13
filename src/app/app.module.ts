@@ -9,13 +9,15 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DebtCalcPage } from '../pages/debt-calc/debt-calc';
+import { DebtListPage } from '../pages/debt-list/debt-list';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ListPage,
-    DebtCalcPage
+    DebtCalcPage,
+    DebtListPage
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,8 @@ import { DebtCalcPage } from '../pages/debt-calc/debt-calc';
     MyApp,
     HomePage,
     ListPage,
-    DebtCalcPage
+    DebtCalcPage,
+    DebtListPage
   ],
   providers: [
     StatusBar,

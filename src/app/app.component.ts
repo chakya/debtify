@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { DebtCalcPage } from '../pages/debt-calc/debt-calc';
-
+import firebase from 'firebase';
 @Component({
   templateUrl: 'app.html'
 })
@@ -26,6 +26,14 @@ export class MyApp {
       { title: 'List', component: ListPage }
     ];
 
+    firebase.initializeApp({
+      apiKey: 'AIzaSyA--qMbmrqws4llh_EbW3AJNue_R0__I9A',
+      authDomain: 'debtify-00.firebaseapp.com',
+      databaseURL: 'https://debtify-00.firebaseio.com',
+      storageBucket: 'debtify-00.appspot.com',
+      messagingSenderId: '942254922740',
+    });
+
   }
 
   initializeApp() {
@@ -42,4 +50,5 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+
 }
