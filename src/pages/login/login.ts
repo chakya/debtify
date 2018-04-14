@@ -1,9 +1,10 @@
+import { UtilsProvider } from './../../providers/utils/utils';
+import { AuthProvider } from './../../providers/auth/auth';
+import { RegisterPage } from './../register/register';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController} from 'ionic-angular';
 import { User } from '../../models/user';
-import { AngularFireAuth } from "angularfire2/auth";
 import { HomePage } from '../home/home';
-
 /**
  * Generated class for the LoginPage page.
  *
@@ -21,28 +22,70 @@ export class LoginPage {
   user = {} as User;
 
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams,
-    private afAuth: AngularFireAuth) {
+    public navCtrl: NavController, public navParams: NavParams,
+    public utils: UtilsProvider , public auth: AuthProvider,
+    public alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  async login(user) {
-    try {
-      const result = await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
-      if (result) {
-        this.navCtrl.setRoot(HomePage);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+  login() {
+    this.utils.createLoading();
+    this.auth.loginUser(this.user.email, this.user.password)
+      .then( user => {
+        if (!user.emailVerified) {
+          this.auth.logoutUser();
+          this.utils.dismissLoading().then(() => this.utils.createAlert("Please verify your email", "OK"));
+        } else {
+          this.navCtrl.setRoot(HomePage);
+        }
+      }, error => {
+        this.utils.dismissLoading().then(() => this.utils.createAlert(error.message, "OK"));
+      });
   }
+  /*
+  login() {
+
+  }*/
 
   register() {
-    this.navCtrl.push('RegisterPage');
+    this.navCtrl.setRoot(RegisterPage);
+  }
+
+  forgotPass() {
+    let forgot = this.alertCtrl.create({
+      title: 'Forgot Password?',
+      message: "Enter you email address to send a reset link password.",
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'Email',
+          type: 'email'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Send',
+          handler: data => {
+            this.auth.resetPassword(data.email)
+              .then((user) => {
+                this.utils.createAlert("We just sent you a reset link to your email", "OK");
+              }, (error) => {
+                this.utils.createAlert(error.message, "OK");
+              });
+          }
+        }
+      ]
+    });
+    forgot.present();
   }
 
 }

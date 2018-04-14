@@ -1,8 +1,9 @@
+import { UtilsProvider } from './../../providers/utils/utils';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams} from 'ionic-angular';
 import { User } from '../../models/user';
-import { AngularFireAuth} from "angularfire2/auth"
-import { HomePage } from '../home/home';
+import { AuthProvider } from './../../providers/auth/auth';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the RegisterPage page.
@@ -17,29 +18,35 @@ import { HomePage } from '../home/home';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
-
   user = {} as User;
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private afAuth: AngularFireAuth) {
+    public navCtrl: NavController, public navParams: NavParams,
+    public utils: UtilsProvider, public authData: AuthProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
 
-  async register(user: User) {
-    try {
-      const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
-      if (result) {
-        this.navCtrl.setRoot(HomePage);
+
+  register() {
+    this.utils.createLoading();
+    this.authData.signupUser(this.user.email, this.user.password)
+      .then(user => {
+        user.sendEmailVerification().then(() => {
+          this.utils.dismissLoading().then(() => this.utils.createAlert("Please verify your email", "OK", () => this.navCtrl.setRoot(LoginPage)));
+        }, (error) => {
+          this.utils.dismissLoading().then(() => this.utils.createAlert(error.message, "OK"));
+        });
+      }, (error) => {
+        this.utils.dismissLoading().then(() => this.utils.createAlert(error.message, "OK"));
       }
-    }
-    catch (e) {
-      console.error(e);
-    }
+    )
+  }
+
+  login() {
+    this.navCtrl.setRoot(LoginPage);
   }
 
 }
