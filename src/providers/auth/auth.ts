@@ -32,6 +32,10 @@ export class AuthProvider {
     return this.afAuth.authState;
   }
 
+  currentUserId(): string {
+    return this.authenticated() ? this.user.uid : '';
+  }
+
   loginUser(newEmail: string, newPassword: string): Promise<any> {
     return this.afAuth.auth.signInWithEmailAndPassword(newEmail, newPassword);
   }
