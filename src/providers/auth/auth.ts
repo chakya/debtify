@@ -1,0 +1,60 @@
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
+<<<<<<< HEAD
+=======
+import firebase from 'firebase/app';
+>>>>>>> c6b40ff3ce253958e9e4bd8c4a5dadb46fef4827
+
+/*
+  Generated class for the AuthProvider provider.
+
+  See https://angular.io/guide/dependency-injection for more info on providers
+  and Angular DI.
+*/
+@Injectable()
+export class AuthProvider {
+
+  private user: any;
+
+  constructor(public afAuth: AngularFireAuth) {
+    console.log('Hello AuthProvider Provider');
+    this.afAuth.authState.subscribe((user) => {
+      this.user = user;
+    });
+  }
+
+  authenticated(): boolean {
+    return this.user !== null;
+  }
+
+  currentUser(): any {
+    return this.authenticated() ? this.user : null;
+  }
+
+  currentUserObservable(): any {
+    return this.afAuth.authState;
+  }
+
+  currentUserId(): string {
+    return this.authenticated() ? this.user.uid : '';
+  }
+
+  loginUser(newEmail: string, newPassword: string): Promise<any> {
+    return this.afAuth.auth.signInWithEmailAndPassword(newEmail, newPassword);
+  }
+
+  resetPassword(email: string): Promise<void> {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
+  }
+
+  logoutUser(): Promise<void> {
+    return this.afAuth.auth.signOut();
+  }
+
+  signupUser(newEmail: string, newPassword: string): Promise<any> {
+    return this.afAuth.auth.createUserWithEmailAndPassword(newEmail, newPassword);
+  }
+
+
+
+}
