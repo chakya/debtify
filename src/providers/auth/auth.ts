@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-<<<<<<< HEAD
-=======
-import firebase from 'firebase/app';
->>>>>>> c6b40ff3ce253958e9e4bd8c4a5dadb46fef4827
 
 /*
   Generated class for the AuthProvider provider.
