@@ -1,3 +1,4 @@
+import { ContactPage } from './../pages/contact/contact';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -21,6 +22,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { UtilsProvider } from '../providers/utils/utils';
 import { DebtProvider } from '../providers/debt/debt';
 import { LendProvider } from '../providers/lend/lend';
+import { ContactProvider } from '../providers/contact/contact';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { LendProvider } from '../providers/lend/lend';
     ListPage,
     DebtCalcPage,
     DebtListPage,
-    RegisterPage
+    RegisterPage,
+    ContactPage
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ import { LendProvider } from '../providers/lend/lend';
     ListPage,
     DebtCalcPage,
     DebtListPage,
-    RegisterPage
+    RegisterPage,
+    ContactPage
   ],
   providers: [
     StatusBar,
@@ -57,7 +61,8 @@ import { LendProvider } from '../providers/lend/lend';
     AuthProvider,
     UtilsProvider,
     DebtProvider,
-    LendProvider
+    LendProvider,
+    ContactProvider
   ]
 })
 export class AppModule {}

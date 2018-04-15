@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -12,10 +12,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
 @Injectable()
 export class LendProvider {
 
-  private lend: Observable<any>
+  private lend: AngularFireList<any>
 
   constructor(public db: AngularFireDatabase, public auth: AngularFireAuth) {
-    this.lend = this.db.list("toDebt/0").valueChanges();
+    this.lend = this.db.list("toDebt/0");
     /*
     let userId = auth.currentUserId();
     this.lend = this.db.list(`toDebt/${userId}`).valueChanges();
@@ -23,7 +23,11 @@ export class LendProvider {
   }
 
   getLend() {
-    return this.lend;
+    return this.lend.valueChanges();
+  }
+
+  saveNewLend(lend) {
+    this.lend.push(lend);
   }
 
 }

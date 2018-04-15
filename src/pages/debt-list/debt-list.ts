@@ -1,3 +1,4 @@
+import { ContactPage } from './../contact/contact';
 import { DebtProvider } from './../../providers/debt/debt';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -27,6 +28,12 @@ export class DebtListPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DebtListPage');
+  }
+
+  addNewItem() {
+    this.navCtrl.push(ContactPage, {
+      debtType: this.debtType
+    });
   }
 
 }
