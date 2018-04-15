@@ -15,9 +15,12 @@ import { DebtListPage } from '../pages/debt-list/debt-list';
 
 import { AngularFireModule } from "angularfire2";
 import { AngularFireAuthModule } from "angularfire2/auth";
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { FIREBASE_CONFIG } from './app.firebase.config';
 import { AuthProvider } from '../providers/auth/auth';
 import { UtilsProvider } from '../providers/utils/utils';
+import { DebtProvider } from '../providers/debt/debt';
+import { LendProvider } from '../providers/lend/lend';
 
 
 @NgModule({
@@ -34,7 +37,8 @@ import { UtilsProvider } from '../providers/utils/utils';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -51,7 +55,9 @@ import { UtilsProvider } from '../providers/utils/utils';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    UtilsProvider
+    UtilsProvider,
+    DebtProvider,
+    LendProvider
   ]
 })
 export class AppModule {}

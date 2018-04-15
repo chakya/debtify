@@ -7,6 +7,9 @@
 <ion-header>
 
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>debt-list</ion-title>
   </ion-navbar>
 
@@ -27,7 +30,7 @@
 <ion-content padding>
     <div [ngSwitch]="debtType">
       <ion-list *ngSwitchCase="'lend'">
-        <ion-item *ngFor="let lend of lendList">
+        <ion-item *ngFor="let lend of lendList | async">
           {{lend.From.Name}}
           <ion-note item-end>
           RM {{lend.Amount}}
@@ -36,12 +39,12 @@
       </ion-list>
 
       <ion-list *ngSwitchCase="'owe'">
-        <ion-item *ngFor="let debt of debtList">
-          {{debt.To.Name}}
-          <ion-note item-end>
-          RM {{debt.Amount}}
-          </ion-note>
-        </ion-item>
-      </ion-list>
+          <ion-item *ngFor="let debt of debtList | async">
+              {{debt.To.Name}}
+              <ion-note item-end>
+              RM {{debt.Amount}}
+              </ion-note>
+          </ion-item>
+        </ion-list>
     </div>
 </ion-content>

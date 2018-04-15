@@ -1,3 +1,4 @@
+import { DebtListPage } from './../pages/debt-list/debt-list';
 import { AuthProvider } from './../providers/auth/auth';
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
@@ -5,15 +6,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
-import { DebtCalcPage } from '../pages/debt-calc/debt-calc';
-import firebase from 'firebase';
+
 import { LoginPage } from '../pages/login/login';
 @Component({
   templateUrl: 'app.html'
 })
-
-
 
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -29,7 +26,7 @@ export class MyApp {
     private auth: AuthProvider) {
     
     const authObserver = auth.currentUserObservable().subscribe(user => {
-      this.rootPage = user && user.emailVerified ? HomePage : LoginPage;
+      this.rootPage = user && user.emailVerified ? DebtListPage : LoginPage;
       authObserver.unsubscribe();
     });
 
@@ -37,18 +34,9 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage },
+      { title: 'Home', component: DebtListPage },
       { title: 'Log Out', component: LoginPage}
     ];
-
-    firebase.initializeApp({
-      apiKey: 'AIzaSyA--qMbmrqws4llh_EbW3AJNue_R0__I9A',
-      authDomain: 'debtify-00.firebaseapp.com',
-      databaseURL: 'https://debtify-00.firebaseio.com',
-      storageBucket: 'debtify-00.appspot.com',
-      messagingSenderId: '942254922740',
-    });
 
   }
 
