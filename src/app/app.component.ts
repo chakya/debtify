@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoginPage } from '../pages/login/login';
+import { DebtCalcPage } from '../pages/debt-calc/debt-calc';
 @Component({
   templateUrl: 'app.html'
 })
@@ -24,7 +25,7 @@ export class MyApp {
     private auth: AuthProvider) {
     
     const authObserver = auth.currentUserObservable().subscribe(user => {
-      this.rootPage = user && user.emailVerified ? DebtListPage : LoginPage;
+      this.rootPage = user && user.emailVerified ? DebtCalcPage : LoginPage;
       authObserver.unsubscribe();
     });
 

@@ -23,15 +23,15 @@
 
     <!-- <ion-input type="text" [(ngModel)]='amountDisplay'></ion-input> -->
 
-    <div align="right" style="height:20%; width:100%; font-size:80px; position:absolute; padding:3rem" >{{amountDisplay}}</div>
-    <div style="height:20%; width:100%; font-size:60px; color:grey; padding:3rem;" >{{operator}}</div>
+    <div align="right" style="height:20%; width:100%; font-size:80px; padding:3rem" >{{amountDisplay}}</div>
+    <div align="right" style="height:20%; width:100%; font-size:80px; padding:3rem; top:400px">{{result}}</div>
 
 
   <div  style="position:absolute; bottom:0px; width:100%; font-size:50px !important;">
       <ion-grid no-padding>
     <ion-row wrap style="background-color:black">
         <ion-col width-50  col-6 ><button (click)="clear()" ion-button color="dark" style="color:#961d1d">C</button></ion-col>
-       <ion-col width-25  col-3 ><button  (click)="updAmount('')"  ion-button color="dark">%</button></ion-col>
+       <ion-col width-25  col-3 ><button  (click)="updAmount('%')"  ion-button color="dark">%</button></ion-col>
         <ion-col width-25  col-3 ><button (click)="updAmount('/')"ion-button color="stable">/</button></ion-col>
       </ion-row>
       <ion-row wrap style="background-color:black">
