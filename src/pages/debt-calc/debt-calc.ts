@@ -27,78 +27,62 @@ export class DebtCalcPage {
     this.debtType = navParams.get("debtType");
   }
 
-  amountDisplay:string='0';
+  amountDisplay:string='';
   prevNum:string='0';
   operator:string='';
   newEntry:boolean=true;
   currNum:string='0';
-
+  onOperator:boolean=false;
+  result:string=''
+  toCalculate:string=''
   ionViewDidLoad() {
     console.log('ionViewDidLoad DebtCalcPage');
   }
 
-  updAmount(char:string){
-    if (this.isNumber(char)){
-      //keep adding number
-      if( !this.newEntry){
-      this.amountDisplay+=char
-      }
-      //if you pressed operator it will reset the number display
-      else {
-        this.amountDisplay=char
-        this.newEntry=false;
-      }
-    }
-    else if(char=='='){
-      this.currNum =this.amountDisplay
-      try {
-        this.amountDisplay=eval(this.prevNum+this.operator+this.currNum)  
-    }
-    catch(err) {
-        this.amountDisplay='err'
-        this.reset()
-    }
-      console.log(this.prevNum+this.operator+this.currNum)    
-      this.operator='' 
-    }
 
-    //if operator was pressed
+  updAmount(char){
+    if (this.isNumber(char) || char==='%'){
+        this.amountDisplay+=char
+        this.onOperator=false
+        this.amountDisplay=this.amountDisplay.substring(0, this.amountDisplay.length - 1)+char;
+        if (char==='%'){
+          this.toCalculate=this.amountDisplay.substring(0, this.amountDisplay.length - 1)+'/100';
+        }
+        else{
+          this.toCalculate+=char
+        }
+    }
+  else if(char!=='='){
+    if (this.onOperator){
+      this.amountDisplay=this.amountDisplay.substring(0, this.amountDisplay.length - 1)+char;
+      this.toCalculate=this.toCalculate.substring(0, this.amountDisplay.length - 1)+char;
+    }
     else{
-      if (this.newEntry===true){
-        this.operator=char
-      }
-      else{
-      this.currNum =this.amountDisplay
-      if (this.operator!=='' ){ 
-        console.log(this.prevNum,this.currNum)
-        this.amountDisplay=eval(this.prevNum+this.operator+this.currNum)   
-        this.operator='' 
-      }
-      this.operator=char
-      this.prevNum= this.amountDisplay
-      this.newEntry=true;
-    }
-    }
-
-    if (!isFinite(parseInt(this.amountDisplay))){
-      this.reset()
+      this.amountDisplay+=char
+      this.toCalculate+=char
+      this.onOperator=true
     }
   }
-
-  reset(){
-    this.newEntry=true
-    this.prevNum=''
-    this.currNum=''
-    this.operator=''
+  this.calc()
   }
+
+  calc(){
+    try {
+      this.result=eval(this.toCalculate)  
+  }
+  catch(err) {
+  }
+  }
+
 
   clear(){
-    this.amountDisplay='0'
-    this.reset()
+    this.amountDisplay=''
+    this.toCalculate=''
   }
 
   del(){
     this.amountDisplay=this.amountDisplay.substring(0, this.amountDisplay.length - 1);
+    this.toCalculate=this.amountDisplay.substring(0, this.toCalculate.length - 1);
   }
   isNumber(char){
     var numbList=['0','1','2','3','4','5','6','7','8','9','.']
@@ -110,14 +94,14 @@ export class DebtCalcPage {
   send(){
     if (this.debtType === "owe") {
       this.debtDb.saveNewDebt({
-        Amount: parseInt(this.amountDisplay),
+        Amount: parseInt(this.result),
         Note: "test",
         To: this.person
       });
       this.navCtrl.setRoot(DebtListPage);
     } else {
       this.lendDb.saveNewLend({
-        Amount: parseInt(this.amountDisplay),
+        Amount: parseInt(this.result),
         Note: "test",
         From: this.person
       })
