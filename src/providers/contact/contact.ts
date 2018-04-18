@@ -20,6 +20,10 @@ export class ContactProvider {
   }
 
   getContact() {
+    return this.contact.valueChanges();
+  }
+
+  getUser() {
     this.contact.valueChanges().subscribe(data => console.log(data));
   }
 

@@ -25,8 +25,7 @@ export class DebtListPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, 
               public debtData: DebtProvider, public lendData: LendProvider,
               public contactData: ContactProvider) { 
-    this.debtList = debtData.getDebt();
-    this.lendList = lendData.getLend();
+    
   }
 
   ionViewDidLoad() {

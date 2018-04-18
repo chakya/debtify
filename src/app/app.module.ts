@@ -23,6 +23,7 @@ import { UtilsProvider } from '../providers/utils/utils';
 import { DebtProvider } from '../providers/debt/debt';
 import { LendProvider } from '../providers/lend/lend';
 import { ContactProvider } from '../providers/contact/contact';
+import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-database';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { ContactProvider } from '../providers/contact/contact';
     UtilsProvider,
     DebtProvider,
     LendProvider,
-    ContactProvider
+    ContactProvider,
+    DebtifyDatabaseProvider
   ]
 })
 export class AppModule {}
