@@ -13,13 +13,14 @@ import { Injectable } from '@angular/core';
 export class ContactProvider {
 
   private contact: AngularFireList<any>;
+  private users: AngularFireList<any>;
 
   constructor(public auth: AngularFireAuth, public db: AngularFireDatabase) {
-    this.contact = this.db.list("Contact/0");
+    this.contact = this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1");
   }
 
   getContact() {
-    return this.contact.valueChanges();
+    this.contact.valueChanges().subscribe(data => console.log(data));
   }
 
 }

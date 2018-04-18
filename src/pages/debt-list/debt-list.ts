@@ -1,3 +1,4 @@
+import { ContactProvider } from './../../providers/contact/contact';
 import { ContactPage } from './../contact/contact';
 import { DebtProvider } from './../../providers/debt/debt';
 import { Component } from '@angular/core';
@@ -21,7 +22,9 @@ export class DebtListPage {
   debtList: Observable<any>;
   lendList: Observable<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public debtData: DebtProvider, public lendData: LendProvider) { 
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+              public debtData: DebtProvider, public lendData: LendProvider,
+              public contactData: ContactProvider) { 
     this.debtList = debtData.getDebt();
     this.lendList = lendData.getLend();
   }

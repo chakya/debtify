@@ -16,10 +16,10 @@ export class DebtProvider {
   private debt: AngularFireList<any>;
 
   constructor(public db: AngularFireDatabase, public auth: AuthProvider) {
-    this.debt = this.db.list(`/fromDebt/0`);
+    this.debt = this.db.list(`/Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1`);
     /*
     let userId = auth.currentUserId();
-    this.debt = this.db.list(`/fromDebt/${}`).valueChanges();
+    this.debt = this.db.list(`/fromDebt/${userId}`).valueChanges();
     */
   }
 
