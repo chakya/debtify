@@ -1,4 +1,3 @@
-import { DebtifyDatabaseProvider } from './../providers/debtify-database/debtify-database';
 import { DebtListPage } from './../pages/debt-list/debt-list';
 import { AuthProvider } from './../providers/auth/auth';
 import { Component, ViewChild } from '@angular/core';
@@ -22,11 +21,14 @@ export class MyApp {
     public platform: Platform, 
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    private auth: AuthProvider,
-    public debtifyDatabase: DebtifyDatabaseProvider) {
+    private auth: AuthProvider) {
   
     const authObserver = auth.currentUserObservable().subscribe(user => {
-      this.rootPage = user && user.emailVerified ? DebtListPage : LoginPage;
+      if (user && user.emailVerified) {
+        this.rootPage = DebtListPage
+      } else {
+        this.rootPage = LoginPage;
+      }
       authObserver.unsubscribe();
     });
 

@@ -1,6 +1,4 @@
-import { LendProvider } from './../../providers/lend/lend';
 import { DebtListPage } from './../debt-list/debt-list';
-import { DebtProvider } from './../../providers/debt/debt';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -21,8 +19,7 @@ export class DebtCalcPage {
   person: any;
   debtType: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-    public debtDb: DebtProvider, public lendDb: LendProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.person = navParams.get("person");
     this.debtType = navParams.get("debtType");
   }
@@ -92,21 +89,7 @@ export class DebtCalcPage {
   }
 
   send(){
-    if (this.debtType === "owe") {
-      this.debtDb.saveNewDebt({
-        Amount: parseInt(this.result),
-        Note: "test",
-        To: this.person
-      });
-      this.navCtrl.setRoot(DebtListPage);
-    } else {
-      this.lendDb.saveNewLend({
-        Amount: parseInt(this.result),
-        Note: "test",
-        From: this.person
-      })
-      this.navCtrl.setRoot(DebtListPage);
+    
     }
-  }
 
 }

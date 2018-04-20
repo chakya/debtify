@@ -20,9 +20,6 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { FIREBASE_CONFIG } from './app.firebase.config';
 import { AuthProvider } from '../providers/auth/auth';
 import { UtilsProvider } from '../providers/utils/utils';
-import { DebtProvider } from '../providers/debt/debt';
-import { LendProvider } from '../providers/lend/lend';
-import { ContactProvider } from '../providers/contact/contact';
 import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-database';
 
 
@@ -61,9 +58,6 @@ import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-d
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     UtilsProvider,
-    DebtProvider,
-    LendProvider,
-    ContactProvider,
     DebtifyDatabaseProvider
   ]
 })

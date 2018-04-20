@@ -1,9 +1,7 @@
-import { ContactProvider } from './../../providers/contact/contact';
+import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
 import { ContactPage } from './../contact/contact';
-import { DebtProvider } from './../../providers/debt/debt';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { LendProvider } from '../../providers/lend/lend';
 import { Observable } from 'rxjs/Observable';
 /**
  * Generated class for the DebtListPage page.
@@ -22,10 +20,11 @@ export class DebtListPage {
   debtList: Observable<any>;
   lendList: Observable<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-              public debtData: DebtProvider, public lendData: LendProvider,
-              public contactData: ContactProvider) { 
-    
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public debtifyDb: DebtifyDatabaseProvider) { 
+    debtifyDb.initiate();
   }
 
   ionViewDidLoad() {

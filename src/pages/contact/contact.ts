@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs/Observable';
-import { ContactProvider } from './../../providers/contact/contact';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DebtCalcPage } from '../debt-calc/debt-calc';
@@ -21,8 +20,7 @@ export class ContactPage {
   contactList: Observable<any>;
   debtType: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public contactData: ContactProvider) {
-    this.contactList = this.contactData.getContact();
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.debtType = navParams.get("debtType");
   }
 
