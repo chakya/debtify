@@ -24,7 +24,8 @@ export class DebtListPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public debtifyDb: DebtifyDatabaseProvider) { 
-    debtifyDb.initiate();
+    this.lendList = debtifyDb.getLend();
+    this.debtList = debtifyDb.getOwe();
   }
 
   ionViewDidLoad() {

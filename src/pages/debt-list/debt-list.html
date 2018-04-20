@@ -36,7 +36,7 @@
     <div [ngSwitch]="debtType">
       <ion-list *ngSwitchCase="'lend'">
         <ion-item *ngFor="let lend of lendList | async">
-          {{lend.From.Name}}
+          <h2 *ngIf="lend.User | async; let user">{{user.Name}}</h2>
           <ion-note item-end>
           RM {{lend.Amount}}
           </ion-note>
@@ -45,10 +45,10 @@
 
       <ion-list *ngSwitchCase="'owe'">
           <ion-item *ngFor="let debt of debtList | async">
-              {{debt.To.Name}}
-              <ion-note item-end>
-              RM {{debt.Amount}}
-              </ion-note>
+            <h2 *ngIf="debt.User | async; let user">{{user.Name}}</h2>
+            <ion-note item-end>
+            RM {{debt.Amount}}
+            </ion-note>
           </ion-item>
         </ion-list>
     </div>

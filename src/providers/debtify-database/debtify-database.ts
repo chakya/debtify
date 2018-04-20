@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-
+import 'rxjs/add/observable/combineLatest';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
@@ -19,6 +19,13 @@ interface Users {
   Name: string;
 }
 
+interface Lend {
+  Amount: number;
+  Id: string;
+  Note: string;
+  User: any;
+}
+
 @Injectable()
 export class DebtifyDatabaseProvider {
 
@@ -30,7 +37,7 @@ export class DebtifyDatabaseProvider {
   constructor(public auth: AngularFireAuth, public db: AngularFireDatabase) {
 
   }
-
+/*
   initiate() {
     console.log("test");
     this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").valueChanges().subscribe(data => {
@@ -55,18 +62,32 @@ export class DebtifyDatabaseProvider {
       console.log(this.owe);
     });
   }
-/*
+  */
   getContact() {
-    this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
+    return this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
       .valueChanges()
-      .switchMap((element: ContactFirebase[]) => element.map(data => {
-        return this.getUsers(data.Id);
-      })
-    ).subscribe(console.log);
+      .switchMap((element: ContactFirebase[]) => Observable.combineLatest(element.map(data => {
+        return this.db.list("Users/" + data.Id).valueChanges();
+      }))
+    )
   }
 
-  private getUsers(key: string) {
-    return this.db.list("Users/" + key).valueChanges();
+  getLend(): Observable<Lend[]>{
+    return this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
+      .valueChanges()
+      .map((items: Lend[]) => {
+        items.forEach(item => item.User = this.db.object("Users/" + item.Id).valueChanges());
+        return items;
+      });
   }
-*/
+
+  getOwe(): Observable<Lend[]>{
+    return this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
+      .valueChanges()
+      .map((items: Lend[]) => {
+        items.forEach(item => item.User = this.db.object("Users/" + item.Id).valueChanges());
+        return items;
+      });
+  }
+
 }
