@@ -1,3 +1,4 @@
+import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
 import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -20,8 +21,10 @@ export class ContactPage {
   contactList: Observable<any>;
   debtType: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+              public debtifyDatabase:DebtifyDatabaseProvider) {
     this.debtType = navParams.get("debtType");
+    this.contactList = debtifyDatabase.getContact();
   }
 
   ionViewDidLoad() {

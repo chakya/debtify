@@ -16,7 +16,7 @@
 
   <ion-list>
     <ion-item *ngFor="let person of contactList | async" tappable (click)="addValue(person)">
-        {{person.Name}}
+        {{person}}
     </ion-item>
   </ion-list>
 
