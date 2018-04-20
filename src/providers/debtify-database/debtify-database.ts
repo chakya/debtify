@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/mergeMap';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
@@ -72,22 +73,34 @@ export class DebtifyDatabaseProvider {
     )
   }
 
-  getLend(): Observable<Lend[]>{
+  getLend(){
     return this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
       .valueChanges()
-      .map((items: Lend[]) => {
-        items.forEach(item => item.User = this.db.object("Users/" + item.Id).valueChanges());
-        return items;
-      });
+      .switchMap((element: Lend[]) => Observable.combineLatest(element.map(data => {
+        return this.db.object("Users/" + data.Id).valueChanges().map((element:Users) => {
+          return {
+            Amount: data.Amount,
+            Id: data.Id,
+            Name: element.Name,
+            Note: data.Note
+          };
+        });
+      })))
   }
 
-  getOwe(): Observable<Lend[]>{
+  getOwe(){
     return this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
       .valueChanges()
-      .map((items: Lend[]) => {
-        items.forEach(item => item.User = this.db.object("Users/" + item.Id).valueChanges());
-        return items;
-      });
+      .switchMap((element: Lend[]) => Observable.combineLatest(element.map(data => {
+        return this.db.object("Users/" + data.Id).valueChanges().map((element:Users) => {
+          return {
+            Amount: data.Amount,
+            Id: data.Id,
+            Name: element.Name,
+            Note: data.Note
+          };
+        });
+      })))
   }
 
 }
