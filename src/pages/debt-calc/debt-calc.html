@@ -1,63 +1,48 @@
-<!--
-  Generated template for the DebtCalcPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Debt Machine</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="send()">
-        <ion-icon name="checkmark"></ion-icon>
-      </button>
-    </ion-buttons>
-
+  <ion-navbar color="dark">
+    <ion-title>{{debtType}} {{person}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content class="no-scroll">
+<ion-content>
 
-    <!-- <ion-input type="text" [(ngModel)]='amountDisplay'></ion-input> -->
+  <div text-right margin padding class="text-24px">{{amountDisplay}}</div>
+  <div text-right margin padding class="text-2x">{{result}}</div>
 
-    <div align="right" style="height:20%; width:100%; font-size:80px; padding:3rem" >{{amountDisplay}}</div>
-    <div align="right" style="height:20%; width:100%; font-size:80px; padding:3rem; top:400px">{{result}}</div>
-
-
-  <div  style="position:absolute; bottom:0px; width:100%; font-size:50px !important;">
-      <ion-grid no-padding>
-    <ion-row wrap style="background-color:black">
-        <ion-col width-50  col-6 ><button (click)="clear()" ion-button color="dark" style="color:#961d1d">C</button></ion-col>
-       <ion-col width-25  col-3 ><button  (click)="updAmount('%')"  ion-button color="dark">%</button></ion-col>
-        <ion-col width-25  col-3 ><button (click)="updAmount('/')"ion-button color="stable">/</button></ion-col>
+  <div id="keypad">
+    <ion-grid no-padding>
+      <ion-row>
+        <ion-col><button (click)="clear()" no-margin block large ion-button class="operator">C</button></ion-col>
+        <ion-col><button (click)="updAmount('%')" no-margin block large ion-button class="operator">%</button></ion-col>
+        <ion-col><button (click)="del()" no-margin block large ion-button class="operator"><ion-icon name="backspace"></ion-icon></button></ion-col>
+        <ion-col><button (click)="updAmount('/')" no-margin block large ion-button class="operator">/</button></ion-col>
+      </ion-row>      
+      <ion-row>
+        <ion-col><button (click)="updAmount('1')" no-margin block large ion-button class="number">1</button></ion-col>
+        <ion-col><button (click)="updAmount('2')" no-margin block large ion-button class="number">2</button></ion-col>
+        <ion-col><button (click)="updAmount('3')" no-margin block large ion-button class="number">3</button></ion-col>
+        <ion-col><button (click)="updAmount('*')" no-margin block large ion-button class="operator">*</button></ion-col>
+      </ion-row>      
+      <ion-row>
+        <ion-col><button (click)="updAmount('4')" no-margin block large ion-button class="number">4</button></ion-col>
+        <ion-col><button (click)="updAmount('5')" no-margin block large ion-button class="number">5</button></ion-col>
+        <ion-col><button (click)="updAmount('6')" no-margin block large ion-button class="number">6</button></ion-col>
+        <ion-col><button (click)="updAmount('+')" no-margin block large ion-button class="operator">+</button></ion-col>
+      </ion-row>      
+      <ion-row>
+        <ion-col><button (click)="updAmount('7')" no-margin block large ion-button class="number">7</button></ion-col>
+        <ion-col><button (click)="updAmount('8')" no-margin block large ion-button class="number">8</button></ion-col>
+        <ion-col><button (click)="updAmount('9')" no-margin block large ion-button class="number">9</button></ion-col>
+        <ion-col><button (click)="updAmount('-')" no-margin block large ion-button class="operator">-</button></ion-col>
+      </ion-row>      
+      <ion-row>
+        <ion-col><button (click)="updAmount('.')" no-margin block large ion-button class="number">.</button></ion-col>
+        <ion-col><button (click)="updAmount('0')" no-margin block large ion-button class="number">0</button></ion-col>
+        <ion-col><button (click)="updAmount('=')" no-margin block large ion-button class="operator">=</button></ion-col>
+        <ion-col><button (click)="send()" no-margin block large ion-button><ion-icon name="checkmark"></ion-icon></button></ion-col>
       </ion-row>
-      <ion-row wrap style="background-color:black">
-        <ion-col width-25><button (click)="updAmount('1')" class="col-3" ion-button color="dark">1</button></ion-col>
-        <ion-col width-25><button (click)="updAmount('2')" class="col-3" ion-button color="dark">2</button></ion-col>
-        <ion-col width-25><button (click)="updAmount('3')" class="col-3" ion-button color="dark">3</button></ion-col>
-        <ion-col width-25><button (click)="updAmount('*')" class="col-3" ion-button color="stable">*</button></ion-col>
-      </ion-row>
-      <ion-row wrap style="background-color:black">
-          <ion-col width-25><button (click)="updAmount('4')" class="col-3" ion-button color="dark">4</button></ion-col>
-          <ion-col width-25><button (click)="updAmount('5')" class="col-3" ion-button color="dark">5</button></ion-col>
-          <ion-col width-25><button (click)="updAmount('6')" class="col-3" ion-button color="dark">6</button></ion-col>
-          <ion-col width-25><button (click)="updAmount('-')" class="col-3" ion-button color="stable">-</button></ion-col>
-        </ion-row>
-        <ion-row wrap style="background-color:black">
-            <ion-col width-25><button (click)="updAmount('7')" class="col-3" ion-button color="dark">7</button></ion-col>
-            <ion-col width-25><button (click)="updAmount('8')" class="col-3" ion-button color="dark">8</button></ion-col>
-            <ion-col width-25><button (click)="updAmount('9')" class="col-3" ion-button color="dark">9</button></ion-col>
-            <ion-col width-25><button (click)="updAmount('+')" class="col-3" ion-button color="stable">+</button></ion-col>
-          </ion-row>
-        <ion-row wrap style="background-color:black">
-            <ion-col width-25><button (click)="updAmount('.')" class="col-3" ion-button color="dark">.</button></ion-col>
-            <ion-col width-25><button (click)="updAmount('0')" class="col-3" ion-button color="dark">0</button></ion-col>
-            <ion-col width-25><button (click)="del()" class="col-3" ion-button color="dark"><ion-icon name="backspace"></ion-icon></button></ion-col>
-            <ion-col width-25><button (click)="updAmount('=')" class="col-3" ion-button color="primary">=</button></ion-col>
-          </ion-row>
-        </ion-grid>
-    </div>
+    </ion-grid>
+  </div>
 </ion-content>
