@@ -305,6 +305,14 @@ ion-navbar.no-border {
                         color: color($colors, light);
                     }
                 }
+                    
+                .not-available {
+                    color: color($colors, danger);
+                }
+
+                .available {
+                    color: color($colors, secondary);
+                }
             }
 
             .btn-submit {
