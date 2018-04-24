@@ -4,7 +4,6 @@ import { IonicPage, NavController, NavParams} from 'ionic-angular';
 import { User } from '../../models/user';
 import { AuthProvider } from './../../providers/auth/auth';
 import { LoginPage } from '../login/login';
-import { DebtifyDatabaseProvider } from '../../providers/debtify-database/debtify-database';
 
 /**
  * Generated class for the RegisterPage page.
@@ -19,42 +18,24 @@ import { DebtifyDatabaseProvider } from '../../providers/debtify-database/debtif
   templateUrl: 'register.html',
 })
 export class RegisterPage {
-  
-  fullname: string;
-  username: string;
-  email: string;
-  password: string;
-  usernameAvailable: boolean;
+  user = {} as User;
 
   constructor(
     public navCtrl: NavController, public navParams: NavParams,
-    public utils: UtilsProvider, public authData: AuthProvider,
-    public debtifyDb: DebtifyDatabaseProvider) {
+    public utils: UtilsProvider, public authData: AuthProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
 
-  checkUsername() {
-    if (this.username.length < 6) {
-      this.usernameAvailable = false;
-      return;
-    }
-    this.debtifyDb.checkUsername(this.username).subscribe(username => {
-      this.usernameAvailable = !username;
-    })
-  }
 
   register() {
     this.utils.createLoading();
-    this.authData.signupUser(this.email, this.password)
+    this.authData.signupUser(this.user.email, this.user.password)
       .then(user => {
         user.sendEmailVerification().then(() => {
-          this.utils.dismissLoading().then(() => this.utils.createAlert("Please verify your email", "OK", () => {
-            this.navCtrl.setRoot(LoginPage);
-            this.debtifyDb.registerUser(this.username, this.fullname, user.uid);
-          }));
+          this.utils.dismissLoading().then(() => this.utils.createAlert("Please verify your email", "OK", () => this.navCtrl.setRoot(LoginPage)));
         }, (error) => {
           this.utils.dismissLoading().then(() => this.utils.createAlert(error.message, "OK"));
         });
