@@ -1,3 +1,4 @@
+import { DebtListPage } from './../debt-list/debt-list';
 import { UtilsProvider } from './../../providers/utils/utils';
 import { AuthProvider } from './../../providers/auth/auth';
 import { RegisterPage } from './../register/register';
@@ -39,7 +40,7 @@ export class LoginPage {
           this.auth.logoutUser();
           this.utils.dismissLoading().then(() => this.utils.createAlert("Please verify your email", "OK"));
         } else {
-          this.navCtrl.setRoot(HomePage);
+          this.navCtrl.setRoot(DebtListPage);
         }
       }, error => {
         this.utils.dismissLoading().then(() => this.utils.createAlert(error.message, "OK"));
