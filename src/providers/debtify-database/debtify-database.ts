@@ -30,40 +30,10 @@ interface Lend {
 @Injectable()
 export class DebtifyDatabaseProvider {
 
-  private users;
-  private contact;
-  private owe;
-  private lend;
-
   constructor(public auth: AngularFireAuth, public db: AngularFireDatabase) {
 
   }
-/*
-  initiate() {
-    console.log("test");
-    this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").valueChanges().subscribe(data => {
-      this.users = {};
-      this.contact = data;
-      console.log(this.contact);
-      this.contact.forEach(element =>
-        this.db.list("Users/" + element.Id).valueChanges().subscribe(data => {
-          this.users[element.Id] = data[0];
-          console.log(data);
-        })
-      )
-    });
 
-    this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").valueChanges().subscribe(data => {
-      this.lend = data;
-      console.log(this.lend);
-    });
-
-    this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").valueChanges().subscribe(data => {
-      this.owe = data;
-      console.log(this.owe);
-    });
-  }
-  */
   getContact() {
     return this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
       .valueChanges()
@@ -101,6 +71,30 @@ export class DebtifyDatabaseProvider {
           };
         });
       })))
+  }
+
+  checkUsername(username: string) {
+    username = username.toLowerCase();
+    return this.db.object(`Usernames/${username}`).valueChanges();
+  }
+
+  updateUsername(username: string) {
+    let data = {}
+    data[username] = "iAMtfnGLlsQaRmvfaGNhUOSUWVn1"
+
+    this.db.object("/Users/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").update({"username": username})
+    this.db.object(`/Usernames`).update(data)
+  }
+
+  registerUser(username, fullname, uid) {
+    let user = {}
+    user[uid] = {Username: username, Fullname: fullname};
+    this.db.object("/Users").update(user);
+
+    let uName = {}
+    uName[username] = uid;
+    this.db.object(`/Usernames`).update(uName);
+
   }
 
 }
