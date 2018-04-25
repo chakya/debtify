@@ -1,6 +1,8 @@
+import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
+import { ContactPage } from './../contact/contact';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import firebase from 'firebase';
+import { Observable } from 'rxjs/Observable';
 /**
  * Generated class for the DebtListPage page.
  *
@@ -15,22 +17,24 @@ import firebase from 'firebase';
 })
 export class DebtListPage {
   debtType:string="lend"
-  debtList:any;
-  lendList:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  debtList: Observable<any>;
+  lendList: Observable<any>;
+
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public debtifyDb: DebtifyDatabaseProvider) { 
+    this.lendList = debtifyDb.getLend();
+    this.debtList = debtifyDb.getOwe();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DebtListPage');
+  }
 
-    const lendRef: firebase.database.Reference = firebase.database().ref(`/toDebt/0/`);
-    lendRef.on('value', personSnapshot => {
-      this.lendList = personSnapshot.val();
-    });
-
-    const debtRef: firebase.database.Reference = firebase.database().ref(`/fromDebt/0/`);
-    debtRef.on('value', personSnapshot => {
-      this.debtList = personSnapshot.val();
+  addNewItem() {
+    this.navCtrl.push(ContactPage, {
+      debtType: this.debtType
     });
   }
 

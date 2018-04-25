@@ -1,20 +1,17 @@
 page-debt-calc {
-    .button{
-        margin:0px;
-        // padding:0px;
-        font-size: 2.5rem;
-        height:100%;
-        width:100%;
-        border-radius: 0px 0px 0px 0px;
+
+    #keypad {
+        position: absolute; 
+        bottom: 0px;
+        width: 100%;
+    }
+    
+    .number{
+        background-color: rgb(38, 49, 68);
     }
 
-    ion-row{
-        padding:0px
+    .operator{
+        background-color: rgb(54, 68, 81);
     }
 
-    .no-scroll {
-        .scroll-content {
-          overflow: hidden !important;
-        }
-      }
 }

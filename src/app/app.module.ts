@@ -1,3 +1,4 @@
+import { ContactPage } from './../pages/contact/contact';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -15,9 +16,11 @@ import { DebtListPage } from '../pages/debt-list/debt-list';
 
 import { AngularFireModule } from "angularfire2";
 import { AngularFireAuthModule } from "angularfire2/auth";
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { FIREBASE_CONFIG } from './app.firebase.config';
 import { AuthProvider } from '../providers/auth/auth';
 import { UtilsProvider } from '../providers/utils/utils';
+import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-database';
 
 
 @NgModule({
@@ -28,13 +31,15 @@ import { UtilsProvider } from '../providers/utils/utils';
     ListPage,
     DebtCalcPage,
     DebtListPage,
-    RegisterPage
+    RegisterPage,
+    ContactPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -44,14 +49,16 @@ import { UtilsProvider } from '../providers/utils/utils';
     ListPage,
     DebtCalcPage,
     DebtListPage,
-    RegisterPage
+    RegisterPage,
+    ContactPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    UtilsProvider
+    UtilsProvider,
+    DebtifyDatabaseProvider
   ]
 })
 export class AppModule {}

@@ -4,13 +4,21 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<ion-header class="animated fadeIn">
 
-  <ion-navbar>
+  <ion-navbar color="dark">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>debt-list</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addNewItem()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
-  <ion-toolbar no-border-top>
+  <ion-toolbar no-border-top color="dark">
       <ion-segment [(ngModel)]="debtType">
         <ion-segment-button value="lend">
           You lend
@@ -24,11 +32,11 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="animated fadeIn">
     <div [ngSwitch]="debtType">
       <ion-list *ngSwitchCase="'lend'">
-        <ion-item *ngFor="let lend of lendList">
-          {{lend.From.Name}}
+        <ion-item *ngFor="let lend of lendList | async">
+          {{lend.Name}}
           <ion-note item-end>
           RM {{lend.Amount}}
           </ion-note>
@@ -36,12 +44,20 @@
       </ion-list>
 
       <ion-list *ngSwitchCase="'owe'">
-        <ion-item *ngFor="let debt of debtList">
-          {{debt.To.Name}}
-          <ion-note item-end>
-          RM {{debt.Amount}}
-          </ion-note>
-        </ion-item>
-      </ion-list>
+          <ion-item *ngFor="let debt of debtList | async">
+            {{debt.Name}}
+            <ion-note item-end>
+            RM {{debt.Amount}}
+            </ion-note>
+          </ion-item>
+        </ion-list>
     </div>
 </ion-content>
+
+<ion-fab right bottom>
+  <button ion-fab color="light"><ion-icon name="add"></ion-icon></button>
+  <ion-fab-list side="top">
+    <button ion-fab>Debt</button>
+    <button ion-fab>Lend</button>
+  </ion-fab-list>
+</ion-fab>
