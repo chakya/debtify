@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoginPage } from '../pages/login/login';
+import { AddContactPage } from '../pages/add-contact/add-contact';
 @Component({
   templateUrl: 'app.html'
 })
@@ -26,7 +27,7 @@ export class MyApp {
     
     const authObserver = auth.currentUserObservable().subscribe(user => {
       if (user && user.emailVerified) {
-        this.rootPage = DebtListPage
+        this.rootPage = AddContactPage//DebtListPage
       } else {
         this.rootPage = LoginPage;
       }
