@@ -23,7 +23,14 @@
 
   </ion-list>
 
-  <button class="btn-submit" round ion-button icon-start block color="primary" tappable (click)="login()">
+  <p class="available" *ngIf="usernameAvailable && friendname">
+    @{{friendname}} is available
+  </p>
+  <p class="not-available" *ngIf="!usernameAvailable && friendname">
+    @{{friendname}} is not available
+  </p>
+
+  <button [disabled]="!usernameAvailable" class="btn-submit" round ion-button icon-start block color="primary" tappable (click)="sendFriendRequest()">
     <ion-icon name="log-in"></ion-icon>
     Add User to your contact
   </button>

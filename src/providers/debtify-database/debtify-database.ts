@@ -97,4 +97,15 @@ export class DebtifyDatabaseProvider {
 
   }
 
+  sendFriendRequest(friendId){
+    let friendRequest = {}
+    this.db.list("/FriendRequests/"+friendId).push("iAMtfnGLlsQaRmvfaGNhUOSUWVn1");
+
+  }
+
+  addContact(friendId){
+    let friendRequest = {}
+    this.db.list("/Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").push({"Id":friendId});
+  }
+
 }

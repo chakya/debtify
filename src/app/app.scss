@@ -302,14 +302,9 @@ ion-navbar.no-border {
                     }
                 }
                     
-                .not-available {
-                    color: color($colors, danger);
-                }
 
-                .available {
-                    color: color($colors, secondary);
-                }
             }
+
 
             .btn-submit {
                 //box-shadow: 0px 0px 10px color($colors, secondary);
@@ -317,6 +312,15 @@ ion-navbar.no-border {
         }
     }
     /**/
+}
+
+
+.not-available {
+    color: color($colors, danger);
+}
+
+.available {
+    color: color($colors, secondary);
 }
 
 // style for slider

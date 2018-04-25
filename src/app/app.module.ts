@@ -21,6 +21,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
 import { AuthProvider } from '../providers/auth/auth';
 import { UtilsProvider } from '../providers/utils/utils';
 import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-database';
+import { AddContactPage } from '../pages/add-contact/add-contact';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-d
     DebtCalcPage,
     DebtListPage,
     RegisterPage,
-    ContactPage
+    ContactPage,
+    AddContactPage
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,8 @@ import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-d
     DebtCalcPage,
     DebtListPage,
     RegisterPage,
-    ContactPage
+    ContactPage,
+    AddContactPage
   ],
   providers: [
     StatusBar,

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DebtifyDatabaseProvider } from '../../providers/debtify-database/debtify-database';
+import { ENGINE_METHOD_DIGESTS } from 'constants';
 
 /**
  * Generated class for the AddContactPage page.
@@ -18,7 +19,9 @@ import { DebtifyDatabaseProvider } from '../../providers/debtify-database/debtif
 export class AddContactPage {
   searchInput :string   //an observable
   timeout:any=null;
-  usernameAvailable:boolean;
+  usernameAvailable:boolean=false;
+  friendname:string;
+  friendId: string;
   constructor(public navCtrl: NavController, public navParams: NavParams, public debtifyDb: DebtifyDatabaseProvider) {
   }
 
@@ -41,10 +44,18 @@ export class AddContactPage {
       this.usernameAvailable = false;
       return;
     }
-    this.debtifyDb.checkUsername(this.searchInput).subscribe(username => {
-      console.log(username)
-      this.usernameAvailable = !username;
+    this.debtifyDb.checkUsername(this.searchInput).subscribe(friendId => {
+      console.log(!!friendId)
+      this.friendId=friendId.toString()
+      this.friendname=this.searchInput
+      this.usernameAvailable = !!friendId;
+      console.log(this.friendId,this.friendname)
     })
+  }
+
+  sendFriendRequest(){
+    this.debtifyDb.addContact(this.friendId)
+    this.debtifyDb.sendFriendRequest(this.friendId)
   }
   
 
