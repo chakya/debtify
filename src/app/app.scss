@@ -168,11 +168,7 @@
 .text-2x {
     font-size: 2em;
 }
-
-.text-24px {
-    font-size: 1.5em;
-}
-
+  
 .text-1x {
     font-size: 1em;
 }
@@ -305,6 +301,14 @@ ion-navbar.no-border {
                         color: color($colors, light);
                     }
                 }
+                    
+                .not-available {
+                    color: color($colors, danger);
+                }
+
+                .available {
+                    color: color($colors, secondary);
+                }
             }
 
             .btn-submit {
@@ -314,8 +318,6 @@ ion-navbar.no-border {
     }
     /**/
 }
-
-
 
 // style for slider
 ion-slides.to-top {

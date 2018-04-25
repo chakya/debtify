@@ -1,49 +1,48 @@
 <!-- -->
 
 <ion-content padding class="auth-page animated fadeIn">
-    <div class="login-content">
-  
-      <div padding-horizontal text-center>
-        <div class="logo"></div>
-        <h2 ion-text class="text-primary">
-          <strong>Debtify</strong>
-        </h2>
-      </div>
-  
-      <form class="list-form">
-          <ion-item>
-            <ion-label floating>
-              <ion-icon name="person" item-start class="text-primary"></ion-icon>
-              Full Name
-            </ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label floating>
-                <ion-icon name="mail" item-start class="text-primary"></ion-icon>
-                Email
-              </ion-label>
-            <ion-input name="email" type="email" [(ngModel)]="user.email"></ion-input>
-          </ion-item>
-  
-          <ion-item>
-              <ion-label floating>
-                <ion-icon name="lock" item-start class="text-primary"></ion-icon>
-                Password
-              </ion-label>
-            <ion-input name="password" type="password" [(ngModel)]="user.password"></ion-input>
-          </ion-item>
-      </form>
-      
-      <div margin-top>
-        <button class="btn-submit"round ion-button icon-start block color="primary" tappable (click)="register()">
-          SIGN UP
-        </button>
-      </div>
-      
-      <div text-center margin-top>
-        <span ion-text color="secondary" tappable (click)="login()">I have an account</span>
-      </div>
+  <div class="login-content">
+
+    <div padding-horizontal text-center>
+      <div class="logo"></div>
+      <h2 ion-text class="text-primary">
+        <strong>Debtify</strong>
+      </h2>
     </div>
-  </ion-content>
-  
+
+    <form class="list-form">
+        <ion-item>
+          <ion-label stacked><ion-icon name="person" item-start class="text-primary"></ion-icon>Fullname</ion-label>
+          <ion-input name="fullname" type="text" [(ngModel)]="fullname"></ion-input>
+        </ion-item>          
+        <ion-item>
+          <ion-label stacked><ion-icon name="person" item-start class="text-primary"></ion-icon>Username</ion-label>
+          <ion-input name="username" type="text" [(ngModel)]="username" (keyup)="checkUsername()"></ion-input>
+        </ion-item>
+        <p class="available" *ngIf="usernameAvailable && username">
+          @{{username}} is available
+        </p>
+        <p class="not-available" *ngIf="!usernameAvailable && username">
+          @{{username}} is not available
+        </p>
+        <ion-item>
+          <ion-label stacked><ion-icon name="mail" item-start class="text-primary"></ion-icon>Email</ion-label>
+          <ion-input name="email" type="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked><ion-icon name="password" item-start class="text-primary"></ion-icon>Password</ion-label>
+          <ion-input name="password" type="password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+    </form>
+    
+    <div margin-top>
+      <button class="btn-submit"round ion-button icon-start block color="primary" tappable (click)="register()">
+        SIGN UP
+      </button>
+    </div>
+    
+    <div text-center margin-top>
+      <span ion-text color="secondary" tappable (click)="login()">I have an account</span>
+    </div>
+  </div>
+</ion-content>
