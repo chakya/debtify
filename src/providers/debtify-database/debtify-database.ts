@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/operator/mergeMap';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import 'rxjs/add/operator/reduce';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
 
@@ -24,7 +24,7 @@ interface Lend {
   Amount: number;
   Id: string;
   Note: string;
-  User: any;
+  Name?: any;
 }
 
 @Injectable()
@@ -38,52 +38,101 @@ export class DebtifyDatabaseProvider {
     return this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
       .valueChanges()
       .switchMap((element: ContactFirebase[]) => Observable.combineLatest(element.map(data => {
-        return this.db.list("Users/" + data.Id).valueChanges();
+        return this.db.object("Users/" + data.Id).valueChanges().map((element:Users) => {
+          return element.Name;
+        });
       }))
     )
   }
 
-  getLend(){
+  getLendTotal(){
     return this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
       .valueChanges()
-      .switchMap((element: Lend[]) => Observable.combineLatest(element.map(data => {
-        return this.db.object("Users/" + data.Id).valueChanges().map((element:Users) => {
-          return {
-            Amount: data.Amount,
-            Id: data.Id,
-            Name: element.Name,
-            Note: data.Note
-          };
-        });
-      })))
+      .map((element: Lend[]) => element.map(data => data.Id).filter((v, i, a) => a.indexOf(v) === i))
+      .switchMap(ids => Observable.combineLatest(ids.map(id => 
+        this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+          ref => ref.orderByChild('Id').equalTo(id))
+          .valueChanges()
+          .map((element: Lend[]) => element.reduce((prev, curr) => {
+            return {
+              Id: id,
+              Amount: prev.Amount + curr.Amount,
+              Note: ""
+            }
+          }))      
+          .switchMap((data: Lend) => {
+            return this.db.object("Users/" + data.Id).valueChanges().map((element:Users) => {
+              return {
+                Amount: data.Amount,
+                Id: data.Id,
+                Name: element.Name,
+                Note: data.Note
+              };
+            });
+          })
+      )))
   }
 
-  getOwe(){
+  getOweTotal(){
     return this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
       .valueChanges()
-      .switchMap((element: Lend[]) => Observable.combineLatest(element.map(data => {
-        return this.db.object("Users/" + data.Id).valueChanges().map((element:Users) => {
-          return {
-            Amount: data.Amount,
-            Id: data.Id,
-            Name: element.Name,
-            Note: data.Note
-          };
-        });
-      })))
+      .map((element: Lend[]) => element.map(data => data.Id).filter((v, i, a) => a.indexOf(v) === i))
+      .switchMap(ids => Observable.combineLatest(ids.map(id => 
+        this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+          ref => ref.orderByChild('Id').equalTo(id))
+          .valueChanges()
+          .map((element: Lend[]) => element.reduce((prev, curr) => {
+            return {
+              Id: id,
+              Amount: prev.Amount + curr.Amount,
+              Note: ""
+            }
+          }))
+          .switchMap((data: Lend) => {
+            return this.db.object("Users/" + data.Id).valueChanges().map((element:Users) => {
+              return {
+                Amount: data.Amount,
+                Id: data.Id,
+                Name: element.Name,
+                Note: data.Note
+              };
+            });
+          })
+      )))
+  }
+
+  getDebtDetail(id) {
+    return Observable.combineLatest(
+      this.getLend(id),
+      this.getOwe(id),
+      (lendItems, oweItems)=> {
+        return [...lendItems, ...oweItems]
+      }
+    );
+  }
+
+  getLend(id) {
+    return this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+      ref => ref.orderByChild('Id').equalTo(id))
+      .valueChanges()
+      .map((element: Lend[]) => element.map(data => {
+        return {
+          Amount: data.Amount * -1,
+          Id: data.Id,
+          Note: data.Note
+        }
+      }))
+  }
+
+  getOwe(id) {
+    return this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+      ref => ref.orderByChild('Id').equalTo(id))
+      .valueChanges()
   }
 
   checkUsername(username: string) {
     username = username.toLowerCase();
     return this.db.object(`Usernames/${username}`).valueChanges();
-  }
-
-  updateUsername(username: string) {
-    let data = {}
-    data[username] = "iAMtfnGLlsQaRmvfaGNhUOSUWVn1"
-
-    this.db.object("/Users/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").update({"username": username})
-    this.db.object(`/Usernames`).update(data)
   }
 
   registerUser(username, fullname, uid) {

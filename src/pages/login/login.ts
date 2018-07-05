@@ -35,7 +35,7 @@ export class LoginPage {
   login() {
     this.utils.createLoading();
     this.auth.loginUser(this.user.email, this.user.password)
-      .then( user => {
+      .then(user => {
         if (!user.emailVerified) {
           this.auth.logoutUser();
           this.utils.dismissLoading().then(() => this.utils.createAlert("Please verify your email", "OK"));
@@ -46,10 +46,6 @@ export class LoginPage {
         this.utils.dismissLoading().then(() => this.utils.createAlert(error.message, "OK"));
       });
   }
-  /*
-  login() {
-
-  }*/
 
   register() {
     this.navCtrl.setRoot(RegisterPage);
