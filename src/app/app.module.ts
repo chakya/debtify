@@ -1,3 +1,4 @@
+import { DetailPage } from './../pages/detail/detail';
 import { ContactPage } from './../pages/contact/contact';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -32,7 +33,8 @@ import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-d
     DebtCalcPage,
     DebtListPage,
     RegisterPage,
-    ContactPage
+    ContactPage,
+    DetailPage
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,8 @@ import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-d
     DebtCalcPage,
     DebtListPage,
     RegisterPage,
-    ContactPage
+    ContactPage,
+    DetailPage
   ],
   providers: [
     StatusBar,

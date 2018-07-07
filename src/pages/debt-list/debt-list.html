@@ -10,12 +10,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>debt-list</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="addNewItem()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-title>Debtify</ion-title>
   </ion-navbar>
 
   <ion-toolbar no-border-top color="dark">
@@ -35,7 +30,7 @@
 <ion-content padding class="animated fadeIn">
     <div [ngSwitch]="debtType">
       <ion-list *ngSwitchCase="'lend'">
-        <ion-item *ngFor="let lend of lendList | async">
+        <ion-item *ngFor="let lend of lendList | async" tappable (click)="userDetail(lend)">
           {{lend.Name}}
           <ion-note item-end>
           RM {{lend.Amount}}
@@ -44,10 +39,10 @@
       </ion-list>
 
       <ion-list *ngSwitchCase="'owe'">
-          <ion-item *ngFor="let debt of debtList | async">
-            {{debt.Name}}
+          <ion-item *ngFor="let owe of oweList | async" tappable (click)="userDetail(owe)">
+            {{owe.Name}}
             <ion-note item-end>
-            RM {{debt.Amount}}
+            RM {{owe.Amount}}
             </ion-note>
           </ion-item>
         </ion-list>
@@ -57,7 +52,7 @@
 <ion-fab right bottom>
   <button ion-fab color="light"><ion-icon name="add"></ion-icon></button>
   <ion-fab-list side="top">
-    <button ion-fab>Debt</button>
-    <button ion-fab>Lend</button>
+    <button ion-fab (click)="addNewItem('lend')">Lend</button>
+    <button ion-fab (click)="addNewItem('owe')">Owe</button>
   </ion-fab-list>
 </ion-fab>

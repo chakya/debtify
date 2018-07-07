@@ -1,5 +1,5 @@
+import { DetailPage } from './../detail/detail';
 import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
-import { ContactPage } from './../contact/contact';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
@@ -17,24 +17,29 @@ import { Observable } from 'rxjs/Observable';
 })
 export class DebtListPage {
   debtType:string="lend"
-  debtList: Observable<any>;
+  oweList: Observable<any>;
   lendList: Observable<any>;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public debtifyDb: DebtifyDatabaseProvider) { 
-    this.lendList = debtifyDb.getLend();
-    this.debtList = debtifyDb.getOwe();
+    this.lendList = debtifyDb.getLendTotal();
+    this.oweList = debtifyDb.getOweTotal();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DebtListPage');
   }
 
-  addNewItem() {
-    this.navCtrl.push(ContactPage, {
-      debtType: this.debtType
+  addNewItem(type) {
+    
+  }
+
+  userDetail(user) {
+    console.log(user.Name);
+    this.navCtrl.push(DetailPage, {
+      Name: user.Name
     });
   }
 

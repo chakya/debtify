@@ -5,7 +5,6 @@ import { RegisterPage } from './../register/register';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController} from 'ionic-angular';
 import { User } from '../../models/user';
-import { HomePage } from '../home/home';
 /**
  * Generated class for the LoginPage page.
  *
@@ -35,7 +34,7 @@ export class LoginPage {
   login() {
     this.utils.createLoading();
     this.auth.loginUser(this.user.email, this.user.password)
-      .then( user => {
+      .then(user => {
         if (!user.emailVerified) {
           this.auth.logoutUser();
           this.utils.dismissLoading().then(() => this.utils.createAlert("Please verify your email", "OK"));
@@ -46,10 +45,6 @@ export class LoginPage {
         this.utils.dismissLoading().then(() => this.utils.createAlert(error.message, "OK"));
       });
   }
-  /*
-  login() {
-
-  }*/
 
   register() {
     this.navCtrl.setRoot(RegisterPage);

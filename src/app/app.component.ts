@@ -1,4 +1,4 @@
-import { DebtCalcPage } from './../pages/debt-calc/debt-calc';
+import { ContactPage } from './../pages/contact/contact';
 import { DebtListPage } from './../pages/debt-list/debt-list';
 import { AuthProvider } from './../providers/auth/auth';
 import { Component, ViewChild } from '@angular/core';
@@ -38,6 +38,7 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: DebtListPage },
+      { title: 'Contact', component: ContactPage},
       { title: 'Log Out', component: LoginPage}
     ];
 

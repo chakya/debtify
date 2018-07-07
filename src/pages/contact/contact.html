@@ -7,7 +7,10 @@
 <ion-header>
 
   <ion-navbar color="dark">
-    <ion-title>contact</ion-title>
+      <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+    <ion-title>Contact</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,9 +18,21 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-item *ngFor="let person of contactList | async" tappable (click)="addValue(person)">
-        {{person}}
-    </ion-item>
+    <ion-item-sliding #item *ngFor="let name of contactList | async">
+      <ion-item>
+          {{name}}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button (click)="edit(name, item)">Edit</button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
 </ion-content>
+
+<ion-fab right bottom>
+  <button ion-fab color="light" (click)="addNewContact()">
+    <ion-icon name="add">
+    </ion-icon>
+  </button>
+</ion-fab>

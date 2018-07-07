@@ -28,7 +28,7 @@ export class UtilsProvider {
     this.loading.present();
   }
 
-  createAlert(message, text, handler = () => {}) {
+  createAlert(message, text, handler = (data) => {}) {
     this.alertCtrl.create({
       message: message,
       buttons: [
