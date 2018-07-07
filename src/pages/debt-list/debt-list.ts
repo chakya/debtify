@@ -3,6 +3,7 @@ import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debt
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
+import { SelectContactPage } from '../select-contact/select-contact';
 /**
  * Generated class for the DebtListPage page.
  *
@@ -33,7 +34,9 @@ export class DebtListPage {
   }
 
   addNewItem(type) {
-    
+    this.navCtrl.push(SelectContactPage, {
+      Type: type
+    });
   }
 
   userDetail(user) {

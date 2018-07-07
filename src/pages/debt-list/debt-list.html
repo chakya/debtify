@@ -49,10 +49,26 @@
     </div>
 </ion-content>
 
-<ion-fab right bottom>
+<!-- <ion-fab right bottom>
   <button ion-fab color="light"><ion-icon name="add"></ion-icon></button>
   <ion-fab-list side="top">
     <button ion-fab (click)="addNewItem('lend')">Lend</button>
     <button ion-fab (click)="addNewItem('owe')">Owe</button>
+  </ion-fab-list>
+</ion-fab> -->
+
+<ion-fab right bottom>
+  <button ion-fab color="light">
+    <ion-icon name="add"></ion-icon>
+  </button>
+  <ion-fab-list side="top">
+    <button ion-fab (click)="addNewItem('lend')">
+      <ion-icon name="cash"></ion-icon>
+      <ion-label>Lend</ion-label>
+    </button>
+    <button ion-fab (click)="addNewItem('owe')">
+      <ion-icon name="card"></ion-icon>
+      <ion-label>Owe</ion-label>
+    </button>
   </ion-fab-list>
 </ion-fab>
