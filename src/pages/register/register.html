@@ -14,23 +14,13 @@
           <ion-item>
             <ion-label stacked><ion-icon name="person" item-start class="text-primary"></ion-icon>Fullname</ion-label>
             <ion-input name="fullname" type="text" [(ngModel)]="fullname"></ion-input>
-          </ion-item>          
-          <ion-item>
-            <ion-label stacked><ion-icon name="person" item-start class="text-primary"></ion-icon>Username</ion-label>
-            <ion-input name="username" type="text" [(ngModel)]="username" (keyup)="checkUsername()"></ion-input>
           </ion-item>
-          <p class="available" *ngIf="usernameAvailable && username">
-            @{{username}} is available
-          </p>
-          <p class="not-available" *ngIf="!usernameAvailable && username">
-            @{{username}} is not available
-          </p>
           <ion-item>
             <ion-label stacked><ion-icon name="mail" item-start class="text-primary"></ion-icon>Email</ion-label>
             <ion-input name="email" type="email" [(ngModel)]="email"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label stacked><ion-icon name="password" item-start class="text-primary"></ion-icon>Password</ion-label>
+            <ion-label stacked><ion-icon name="lock" item-start class="text-primary"></ion-icon>Password</ion-label>
             <ion-input name="password" type="password" [(ngModel)]="password"></ion-input>
           </ion-item>
       </form>

@@ -20,11 +20,10 @@ interface Users {
   Name: string;
 }
 
-interface Lend {
+interface Debt {
   Amount: number;
-  Id: string;
+  Name: string;
   Note: string;
-  Name?: any;
 }
 
 @Injectable()
@@ -37,67 +36,59 @@ export class DebtifyDatabaseProvider {
   getContact() {
     return this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
       .valueChanges()
-      .switchMap((element: ContactFirebase[]) => Observable.combineLatest(element.map(data => {
-        return this.db.object("Users/" + data.Id).valueChanges().map((element:Users) => {
-          return element.Name;
-        });
-      }))
-    )
   }
 
-  getLendTotal(){
+  addContact(name) {
+    this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").push(name);
+  }
+
+  editContact(prvName, currName) {
+    this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+      ref => ref.orderByValue().equalTo(prvName))
+      .snapshotChanges()
+      .subscribe(data => {
+        let newName = {}
+        let key = data[0].key;
+        newName[key] = currName;
+        this.db.object("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").update(newName);
+      });
+  }
+
+  getLendTotal() {
     return this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
       .valueChanges()
-      .map((element: Lend[]) => element.map(data => data.Id).filter((v, i, a) => a.indexOf(v) === i))
-      .switchMap(ids => Observable.combineLatest(ids.map(id => 
+      .map((element: Debt[]) => 
+        element.map(data => data.Name).filter((v, i, a) => a.indexOf(v) === i))
+      .switchMap(names => Observable.combineLatest(names.map(name => 
         this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
-          ref => ref.orderByChild('Id').equalTo(id))
+          ref => ref.orderByChild('Name').equalTo(name))
           .valueChanges()
-          .map((element: Lend[]) => element.reduce((prev, curr) => {
+          .map((element: Debt[]) => element.reduce((prev, curr) => {
             return {
-              Id: id,
-              Amount: prev.Amount + curr.Amount,
-              Note: ""
-            }
-          }))      
-          .switchMap((data: Lend) => {
-            return this.db.object("Users/" + data.Id).valueChanges().map((element:Users) => {
-              return {
-                Amount: data.Amount,
-                Id: data.Id,
-                Name: element.Name,
-                Note: data.Note
-              };
-            });
-          })
-      )))
-  }
-
-  getOweTotal(){
-    return this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
-      .valueChanges()
-      .map((element: Lend[]) => element.map(data => data.Id).filter((v, i, a) => a.indexOf(v) === i))
-      .switchMap(ids => Observable.combineLatest(ids.map(id => 
-        this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
-          ref => ref.orderByChild('Id').equalTo(id))
-          .valueChanges()
-          .map((element: Lend[]) => element.reduce((prev, curr) => {
-            return {
-              Id: id,
+              Name: name,
               Amount: prev.Amount + curr.Amount,
               Note: ""
             }
           }))
-          .switchMap((data: Lend) => {
-            return this.db.object("Users/" + data.Id).valueChanges().map((element:Users) => {
-              return {
-                Amount: data.Amount,
-                Id: data.Id,
-                Name: element.Name,
-                Note: data.Note
-              };
-            });
-          })
+      )))
+  }
+
+  getOweTotal() {
+    return this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
+      .valueChanges()
+      .map((element: Debt[]) => 
+        element.map(data => data.Name).filter((v, i, a) => a.indexOf(v) === i))
+      .switchMap(names => Observable.combineLatest(names.map(name => 
+        this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+          ref => ref.orderByChild('Name').equalTo(name))
+          .valueChanges()
+          .map((element: Debt[]) => element.reduce((prev, curr) => {
+            return {
+              Name: name,
+              Amount: prev.Amount + curr.Amount,
+              Note: ""
+            }
+          }))
       )))
   }
 
@@ -111,39 +102,29 @@ export class DebtifyDatabaseProvider {
     );
   }
 
-  getLend(id) {
+  getLend(name) {
     return this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
-      ref => ref.orderByChild('Id').equalTo(id))
+      ref => ref.orderByChild('Name').equalTo(name))
       .valueChanges()
-      .map((element: Lend[]) => element.map(data => {
+      .map((element: Debt[]) => element.map(data => {
         return {
           Amount: data.Amount * -1,
-          Id: data.Id,
+          Id: data.Name,
           Note: data.Note
         }
       }))
   }
 
-  getOwe(id) {
+  getOwe(name) {
     return this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
-      ref => ref.orderByChild('Id').equalTo(id))
+      ref => ref.orderByChild('Name').equalTo(name))
       .valueChanges()
   }
 
-  checkUsername(username: string) {
-    username = username.toLowerCase();
-    return this.db.object(`Usernames/${username}`).valueChanges();
-  }
-
-  registerUser(username, fullname, uid) {
+  registerUser(fullname, uid) {
     let user = {}
-    user[uid] = {Username: username, Fullname: fullname};
+    user[uid] = fullname;
     this.db.object("/Users").update(user);
-
-    let uName = {}
-    uName[username] = uid;
-    this.db.object(`/Usernames`).update(uName);
-
   }
 
 }

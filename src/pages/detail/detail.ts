@@ -18,11 +18,12 @@ import { Observable } from 'rxjs/Observable';
 export class DetailPage {
 
   debtList: Observable<any>;
+  name: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     public debtifyDb: DebtifyDatabaseProvider) {
-    let id = navParams.get("Id");
-    this.debtList = debtifyDb.getDebtDetail(id);
+    this.name = navParams.get("Name");
+    this.debtList = debtifyDb.getDebtDetail(this.name);
   }
 
   ionViewDidLeave(){

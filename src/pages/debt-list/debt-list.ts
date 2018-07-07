@@ -25,24 +25,22 @@ export class DebtListPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public debtifyDb: DebtifyDatabaseProvider) { 
-    this.oweList = debtifyDb.getOweTotal();
     this.lendList = debtifyDb.getLendTotal();
+    this.oweList = debtifyDb.getOweTotal();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DebtListPage');
   }
 
-  addNewItem() {
-    this.navCtrl.push(ContactPage, {
-      debtType: this.debtType
-    });
+  addNewItem(type) {
+    
   }
 
   userDetail(user) {
-    console.log(user.Id);
+    console.log(user.Name);
     this.navCtrl.push(DetailPage, {
-      Id: user.Id
+      Name: user.Name
     });
   }
 

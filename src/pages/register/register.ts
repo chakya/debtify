@@ -21,10 +21,8 @@ import { DebtifyDatabaseProvider } from '../../providers/debtify-database/debtif
 export class RegisterPage {
   
   fullname: string;
-  username: string;
   email: string;
   password: string;
-  usernameAvailable: boolean;
 
   constructor(
     public navCtrl: NavController, public navParams: NavParams,
@@ -36,16 +34,6 @@ export class RegisterPage {
     console.log('ionViewDidLoad RegisterPage');
   }
 
-  checkUsername() {
-    if (this.username.length < 6) {
-      this.usernameAvailable = false;
-      return;
-    }
-    this.debtifyDb.checkUsername(this.username).subscribe(username => {
-      this.usernameAvailable = !username;
-    })
-  }
-
   register() {
     this.utils.createLoading();
     this.authData.signupUser(this.email, this.password)
@@ -53,7 +41,7 @@ export class RegisterPage {
         user.sendEmailVerification().then(() => {
           this.utils.dismissLoading().then(() => this.utils.createAlert("Please verify your email", "OK", () => {
             this.navCtrl.setRoot(LoginPage);
-            this.debtifyDb.registerUser(this.username, this.fullname, user.uid);
+            this.debtifyDb.registerUser(this.fullname, user.uid);
           }));
         }, (error) => {
           this.utils.dismissLoading().then(() => this.utils.createAlert(error.message, "OK"));

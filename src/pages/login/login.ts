@@ -5,7 +5,6 @@ import { RegisterPage } from './../register/register';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController} from 'ionic-angular';
 import { User } from '../../models/user';
-import { HomePage } from '../home/home';
 /**
  * Generated class for the LoginPage page.
  *
