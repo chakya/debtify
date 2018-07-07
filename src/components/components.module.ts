@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { SelectContactComponent } from './select-contact/select-contact';
+
 @NgModule({
-	declarations: [SelectContactComponent],
+	declarations: [],
 	imports: [],
-	exports: [SelectContactComponent]
+	exports: []
 })
 export class ComponentsModule {}
