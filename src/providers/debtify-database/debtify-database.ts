@@ -118,4 +118,13 @@ export class DebtifyDatabaseProvider {
     this.db.object("/Users").update(user);
   }
 
+  addItem(type, name,amount){
+    let item={}
+    console.log(type, name, amount)
+    item["Amount"]=amount
+    item["Name"]=name
+    item["Note"]=""
+    this.db.list("/"+"Owe"+"/"+"iAMtfnGLlsQaRmvfaGNhUOSUWVn1").push(item);
+  }
+
 }

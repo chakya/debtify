@@ -25,14 +25,15 @@ export class SelectContactPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad SelectContactPage');
     this.contactList = this.debtifyDatabase.getContact();
+    console.log(this.contactList)
   }
 
-  contactSelected(contact) {
-    console.log(contact)
+  contactSelected(name) {
     this.type = this.navParams.get("Type");
+    console.log(this.type)
     this.navCtrl.push(DebtCalcPage, {
       Type: this.type,
-      Contact: contact
+      Name: name
     });
   }
 

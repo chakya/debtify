@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { DebtifyDatabaseProvider } from '../../providers/debtify-database/debtify-database';
 
 /**
  * Generated class for the DebtCalcPage page.
@@ -21,8 +22,11 @@ export class DebtCalcPage {
   result: string = ''
   toCalculate: string = ''
   onOperator: boolean = false;
+  type:string;
+  name:string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public debtifyDb: DebtifyDatabaseProvider) {
     this.person = navParams.get("person");
     this.debtType = navParams.get("debtType");
   }
@@ -99,7 +103,9 @@ export class DebtCalcPage {
   }
 
   send() {
-    
+    this.type = this.navParams.get("Type");
+    this.name = this.navParams.get("Name");
+    this.debtifyDb.addItem(this.type,this.name,parseInt(this.amountDisplay))
   }
 
 }
