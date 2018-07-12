@@ -1,6 +1,5 @@
-import { DetailPage } from './../detail/detail';
 import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
-import { ContactPage } from './../contact/contact';
+import { DetailPage } from './../detail/detail';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';

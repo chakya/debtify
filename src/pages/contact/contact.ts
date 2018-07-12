@@ -1,9 +1,7 @@
-import { UtilsProvider } from './../../providers/utils/utils';
 import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
 import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ItemSliding } from 'ionic-angular';
-import { DebtCalcPage } from '../debt-calc/debt-calc';
 
 /**
  * Generated class for the ContactPage page.

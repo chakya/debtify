@@ -1,7 +1,6 @@
 import { UtilsProvider } from './../../providers/utils/utils';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams} from 'ionic-angular';
-import { User } from '../../models/user';
 import { AuthProvider } from './../../providers/auth/auth';
 import { LoginPage } from '../login/login';
 import { DebtifyDatabaseProvider } from '../../providers/debtify-database/debtify-database';

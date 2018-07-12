@@ -1,4 +1,3 @@
-import { DebtListPage } from './../debt-list/debt-list';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 

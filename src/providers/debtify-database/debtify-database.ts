@@ -2,7 +2,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/reduce';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
 
 /*
@@ -11,14 +10,6 @@ import { Injectable } from '@angular/core';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
-
-interface ContactFirebase {
-  Id: string;
-}
-
-interface Users {
-  Name: string;
-}
 
 interface Debt {
   Amount: number;
@@ -29,12 +20,13 @@ interface Debt {
 @Injectable()
 export class DebtifyDatabaseProvider {
 
-  constructor(public auth: AngularFireAuth, public db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase) {
 
   }
 
   getContact() {
-    return this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
+    return this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+      ref => ref.orderByValue())
       .valueChanges()
   }
 
