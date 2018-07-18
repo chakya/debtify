@@ -7,52 +7,77 @@
 <ion-header class="animated fadeIn">
 
   <ion-navbar color="dark">
+
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
+
     <ion-title>Debtify</ion-title>
+
   </ion-navbar>
 
   <ion-toolbar no-border-top color="dark">
-      <ion-segment [(ngModel)]="debtType">
-        <ion-segment-button value="lend">
-          You lend
-        </ion-segment-button>
-        <ion-segment-button value="owe">
-          You owe
-        </ion-segment-button>
-      </ion-segment>
-    </ion-toolbar>
+
+    <ion-segment [(ngModel)]="debtType">
+
+      <ion-segment-button value="lend">
+        You lend
+      </ion-segment-button>
+
+      <ion-segment-button value="owe">
+        You owe
+      </ion-segment-button>
+
+    </ion-segment>
+
+  </ion-toolbar>
 
 </ion-header>
 
 
 <ion-content padding class="animated fadeIn">
-    <div [ngSwitch]="debtType">
-      <ion-list *ngSwitchCase="'lend'">
-        <ion-item *ngFor="let lend of lendList | async" tappable (click)="userDetail(lend)">
-          {{lend.Name}}
-          <ion-note item-end>
-          RM {{lend.Amount}}
-          </ion-note>
-        </ion-item>
-      </ion-list>
 
-      <ion-list *ngSwitchCase="'owe'">
-          <ion-item *ngFor="let owe of oweList | async" tappable (click)="userDetail(owe)">
-            {{owe.Name}}
-            <ion-note item-end>
-            RM {{owe.Amount}}
-            </ion-note>
-          </ion-item>
-        </ion-list>
-    </div>
+  <div [ngSwitch]="debtType">
+
+    <ion-list *ngSwitchCase="'lend'" class="list-full-border">
+
+      <ion-item *ngFor="let lend of lendList | async" tappable (click)="userDetail(lend)">
+
+        {{lend.Name}}
+        <ion-note item-end>
+          {{lend.Currency}} {{lend.Amount}}
+        </ion-note>
+
+      </ion-item>
+
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'owe'" class="list-full-border">
+
+      <ion-item *ngFor="let owe of oweList | async" tappable (click)="userDetail(owe)">
+
+        {{owe.Name}}
+        <ion-note item-end>
+          {{owe.Currency}} {{owe.Amount}}
+        </ion-note>
+
+      </ion-item>
+
+    </ion-list>
+
+  </div>
+
 </ion-content>
 
 <ion-fab right bottom>
-  <button ion-fab color="light"><ion-icon name="add"></ion-icon></button>
+
+  <button ion-fab color="light">
+    <ion-icon name="add"></ion-icon>
+  </button>
+
   <ion-fab-list side="top">
     <button ion-fab (click)="addNewItem('lend')">Lend</button>
     <button ion-fab (click)="addNewItem('owe')">Owe</button>
   </ion-fab-list>
+
 </ion-fab>

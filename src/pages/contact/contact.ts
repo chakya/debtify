@@ -78,5 +78,29 @@ export class ContactPage {
     });
     newContact.present();
   }
+  
+  delete(name, slidingItem: ItemSliding) {
+    slidingItem.close();
+    let deleteContact = this.alertCtrl.create({
+      message: "Are you sure?",
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            console.log(name);
+            this.debtifyDatabase.deleteContact(name);
+          }
+        }
+      ]
+    });
+    deleteContact.present();
+  }
 
 }
