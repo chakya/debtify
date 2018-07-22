@@ -1,7 +1,8 @@
-import { DetailPage } from './../detail/detail';
+import { AdMobPro } from '@ionic-native/admob-pro';
 import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
+import { DetailPage } from './../detail/detail';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { SelectContactPage } from '../select-contact/select-contact';
 /**
@@ -24,9 +25,23 @@ export class DebtListPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public debtifyDb: DebtifyDatabaseProvider) { 
+    public debtifyDb: DebtifyDatabaseProvider,
+    private platform: Platform,
+    private admob: AdMobPro) { 
     this.lendList = debtifyDb.getLendTotal();
     this.oweList = debtifyDb.getOweTotal();
+    this.platform.ready().then(() => {
+      var admobid = {
+          banner: 'ca-app-pub-1435565424178238/9468361331',
+      };
+
+      this.admob.createBanner({
+          adId: admobid.banner,
+          adSize : "BANNER",
+          autoShow: true,
+          position: this.admob.AD_POSITION.BOTTOM_CENTER
+      }).then().catch(() => console.log("cordova is not supported"));
+   });
   }
 
   ionViewDidLoad() {

@@ -14,12 +14,64 @@
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let debt of debtList | async">
-      {{debt.Note}}
-      <ion-note item-end [ngClass]="(0 > debt.Amount) ? 'red' : 'green'">
-      RM {{debt.Amount}}
-      </ion-note>
-    </ion-item>
+  <ion-list class="list-full-border">
+
+    <ion-item-divider color="dark">
+      Lend
+    </ion-item-divider>
+
+    <ion-item-sliding #item *ngFor="let lend of lendList | async">
+
+      <ion-item>
+        {{lend.Note}}
+        <ion-note item-end>
+          {{lend.Currency}} {{lend.Amount}}
+        </ion-note>
+      </ion-item>
+
+      <ion-item-options side="right">
+
+        <button ion-button color="primary" (click)="editDebt('Lend', lend, item)">
+          <ion-icon name="create"></ion-icon>
+          Edit
+        </button>
+
+        <button ion-button color="danger" (click)="deleteDebt('Lend', lend, item)">
+          <ion-icon name="archive"></ion-icon>
+          Delete
+        </button>
+
+      </ion-item-options>
+
+    </ion-item-sliding>
+
+    <ion-item-divider color="dark">
+      Owe
+    </ion-item-divider>
+
+    <ion-item-sliding #item *ngFor="let owe of oweList | async">
+
+      <ion-item>
+        {{owe.Note}}
+        <ion-note item-end>
+          {{owe.Currency}} {{owe.Amount}}
+        </ion-note>
+      </ion-item>
+
+      <ion-item-options side="right">
+
+        <button ion-button color="primary" (click)="editDebt('Owe', owe, item)">
+          <ion-icon name="create"></ion-icon>
+          Edit
+        </button>
+
+        <button ion-button color="danger" (click)="deleteDebt('Owe', owe, item)">
+          <ion-icon name="archive"></ion-icon>
+          Delete
+        </button>
+
+      </ion-item-options>
+
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

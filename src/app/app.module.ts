@@ -24,6 +24,7 @@ import { UtilsProvider } from '../providers/utils/utils';
 import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-database';
 import { SelectContactPage } from '../pages/select-contact/select-contact';
 
+import { AdMobPro } from '@ionic-native/admob-pro';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { SelectContactPage } from '../pages/select-contact/select-contact';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     UtilsProvider,
+    AdMobPro,
     DebtifyDatabaseProvider
   ]
 })
