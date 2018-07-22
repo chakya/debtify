@@ -22,7 +22,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
 import { AuthProvider } from '../providers/auth/auth';
 import { UtilsProvider } from '../providers/utils/utils';
 import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-database';
-
+import { AdMobPro } from '@ionic-native/admob-pro';
 
 @NgModule({
   declarations: [
@@ -61,6 +61,7 @@ import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-d
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     UtilsProvider,
+    AdMobPro,
     DebtifyDatabaseProvider
   ]
 })
