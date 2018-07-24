@@ -65,7 +65,6 @@ export class DebtifyDatabaseProvider {
   editDebtDetail(debtType, key, currObject) {
     let newObject = {}
     newObject[key] = currObject;
-    console.log(newObject);
     this.db.object(debtType + "/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").update(newObject);
   }
 
@@ -134,13 +133,16 @@ export class DebtifyDatabaseProvider {
     this.db.object("/Users").update(user);
   }
 
-  addItem(type, name,amount){
+  addItem(type, name, amount, note, currency){
     let item={}
     console.log(type, name, amount)
-    item["Amount"]=amount
-    item["Name"]=name
-    item["Note"]=""
-    this.db.list("/"+"Owe"+"/"+"iAMtfnGLlsQaRmvfaGNhUOSUWVn1").push(item);
+    item["Amount"] = amount;
+    item["Name"] = name;
+    item["Note"] = note;
+    item["Currency"] = currency;
+    let promise = this.db.list(type + "/" + "iAMtfnGLlsQaRmvfaGNhUOSUWVn1").push(item);
+    item["Id"] = promise.key;
+    this.editDebtDetail(type, promise.key, item);
   }
 
 }

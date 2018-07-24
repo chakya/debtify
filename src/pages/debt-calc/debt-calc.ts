@@ -1,6 +1,8 @@
+import { CURRENCY } from './currency';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { DebtifyDatabaseProvider } from '../../providers/debtify-database/debtify-database';
+import { DebtListPage } from '../debt-list/debt-list';
 
 /**
  * Generated class for the DebtCalcPage page.
@@ -16,19 +18,26 @@ import { DebtifyDatabaseProvider } from '../../providers/debtify-database/debtif
 })
 export class DebtCalcPage {
 
-  person: any;
-  debtType: string;
   amountDisplay: string = '';
   result: string = ''
   toCalculate: string = ''
   onOperator: boolean = false;
   type:string;
   name:string;
+  currency = "MYR";
+  currencyList = CURRENCY;
+  selectOptions = {
+    title: 'Currency',
+    subTitle: 'Select the currency'
+  };
 
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public debtifyDb: DebtifyDatabaseProvider) {
-    this.person = navParams.get("person");
-    this.debtType = navParams.get("debtType");
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public debtifyDb: DebtifyDatabaseProvider,
+    public alertCtrl: AlertController) {
+    this.name = navParams.get("Name");
+    this.type = navParams.get("Type");
   }
 
   ionViewDidLoad() {
@@ -103,9 +112,31 @@ export class DebtCalcPage {
   }
 
   send() {
-    this.type = this.navParams.get("Type");
-    this.name = this.navParams.get("Name");
-    this.debtifyDb.addItem(this.type,this.name,parseInt(this.amountDisplay))
+    let prompt = this.alertCtrl.create({
+      title: 'Add a detail',
+      inputs: [
+        {
+          name: 'Note'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log("cancelled");
+          }
+        },
+        {
+          text: 'Submit',
+          handler: (data) => {
+            let amount = parseFloat(this.result) > 0 ? this.result : this.amountDisplay;
+            this.debtifyDb.addItem(this.type, this.name, parseFloat(amount), data.Note, this.currency);
+            this.navCtrl.setRoot(DebtListPage);
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
 }
