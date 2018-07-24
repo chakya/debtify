@@ -1,3 +1,4 @@
+import { AppPreferences } from '@ionic-native/app-preferences';
 import { CURRENCY } from './currency';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
@@ -24,7 +25,7 @@ export class DebtCalcPage {
   onOperator: boolean = false;
   type:string;
   name:string;
-  currency = "MYR";
+  currency;
   currencyList = CURRENCY;
   selectOptions = {
     title: 'Currency',
@@ -35,7 +36,11 @@ export class DebtCalcPage {
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public debtifyDb: DebtifyDatabaseProvider,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    private appPreferences: AppPreferences) {
+    this.appPreferences.fetch("currency", "symbol")
+      .then(symbol => this.currency = symbol)
+      .catch(error => console.log(error));
     this.name = navParams.get("Name");
     this.type = navParams.get("Type");
   }
@@ -131,6 +136,9 @@ export class DebtCalcPage {
           handler: (data) => {
             let amount = parseFloat(this.result) > 0 ? this.result : this.amountDisplay;
             this.debtifyDb.addItem(this.type, this.name, parseFloat(amount), data.Note, this.currency);
+            this.appPreferences.store("currency", "symbol", this.currency)
+              .then(console.log)
+              .catch(console.log);
             this.navCtrl.setRoot(DebtListPage);
           }
         }

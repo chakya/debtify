@@ -12,6 +12,7 @@ import { RegisterPage } from './../pages/register/register';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AppPreferences } from '@ionic-native/app-preferences';
 import { DebtCalcPage } from '../pages/debt-calc/debt-calc';
 import { DebtListPage } from '../pages/debt-list/debt-list';
 
@@ -66,6 +67,7 @@ import { AdMobPro } from '@ionic-native/admob-pro';
     AuthProvider,
     UtilsProvider,
     AdMobPro,
+    AppPreferences,
     DebtifyDatabaseProvider
   ]
 })
