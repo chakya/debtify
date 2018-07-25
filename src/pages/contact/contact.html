@@ -17,7 +17,8 @@
 
 <ion-content padding>
 
-  <ion-list>
+  <ion-spinner name="circles" *ngIf="loading"></ion-spinner>
+  <ion-list class="list-full-border">
     <ion-item-sliding #item *ngFor="let name of contactList | async">
       <ion-item>
           {{name}}

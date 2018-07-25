@@ -21,6 +21,9 @@ export class DetailPage {
   oweList: Observable<any>;
   lendList: Observable<any>;
   name: string;
+  loadingLend: boolean = true;
+  loadingOwe: boolean = true;
+
 
   constructor(
     public navCtrl: NavController, 
@@ -30,7 +33,9 @@ export class DetailPage {
     public alertCtrl: AlertController) {
     this.name = navParams.get("Name");
     this.oweList = this.debtifyDb.getOwe(this.auth.currentUserId(), this.name);
+    this.debtifyDb.getOwe(this.auth.currentUserId(), this.name).take(1).subscribe(() => this.loadingOwe = false);
     this.lendList = this.debtifyDb.getLend(this.auth.currentUserId(), this.name);
+    this.debtifyDb.getLend(this.auth.currentUserId(), this.name).take(1).subscribe(() => this.loadingLend = false);
   }
 
   ionViewDidLeave(){
