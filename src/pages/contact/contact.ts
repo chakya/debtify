@@ -20,6 +20,7 @@ export class ContactPage {
 
   contactList: Observable<any>;
   debtType: string;
+  loading: boolean = true;
 
   constructor(
     public navCtrl: NavController, 
@@ -28,6 +29,7 @@ export class ContactPage {
     public auth: AuthProvider,
     public debtifyDatabase:DebtifyDatabaseProvider) {
     this.contactList = debtifyDatabase.getContact(auth.currentUserId());
+    debtifyDatabase.getContact(auth.currentUserId()).take(1).subscribe(() => this.loading = false);
   }
 
   ionViewDidLoad() {

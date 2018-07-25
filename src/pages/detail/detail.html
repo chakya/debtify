@@ -20,6 +20,8 @@
       Lend
     </ion-item-divider>
 
+    <ion-spinner name="circles" *ngIf="loadingLend"></ion-spinner>
+
     <ion-item-sliding #item *ngFor="let lend of lendList | async">
 
       <ion-item>
@@ -48,6 +50,8 @@
     <ion-item-divider color="dark">
       Owe
     </ion-item-divider>
+
+    <ion-spinner name="circles" *ngIf="loadingOwe"></ion-spinner>
 
     <ion-item-sliding #item *ngFor="let owe of oweList | async">
 

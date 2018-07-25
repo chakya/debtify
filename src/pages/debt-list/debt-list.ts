@@ -19,7 +19,8 @@ import { SelectContactPage } from '../select-contact/select-contact';
   templateUrl: 'debt-list.html',
 })
 export class DebtListPage {
-  debtType:string="lend"
+  debtType:string = "lend";
+  loading:boolean = true;
   oweList: Observable<any>;
   lendList: Observable<any>;
 
@@ -30,8 +31,9 @@ export class DebtListPage {
     public auth: AuthProvider,
     private platform: Platform,
     private admob: AdMobPro) {
-    this.lendList = debtifyDb.getLendTotal(auth.currentUserId());
-    this.oweList = debtifyDb.getOweTotal(auth.currentUserId());
+    this.lendList = this.debtifyDb.getLendTotal(auth.currentUserId());
+    this.oweList = this.debtifyDb.getOweTotal(auth.currentUserId());
+    this.debtifyDb.getLendTotal(this.auth.currentUserId()).take(1).subscribe(() => this.loading = false);
     this.platform.ready().then(() => {
       var admobid = {
           banner: 'ca-app-pub-1435565424178238/9468361331',
@@ -61,6 +63,15 @@ export class DebtListPage {
     this.navCtrl.push(DetailPage, {
       Name: user.Name
     });
+  }
+
+  changeTab(type) {
+    this.loading = true;
+    if (type == "lend") {
+      this.debtifyDb.getLendTotal(this.auth.currentUserId()).take(1).subscribe(() => this.loading = false);
+    } else {
+      this.debtifyDb.getOweTotal(this.auth.currentUserId()).take(1).subscribe(() => this.loading = false);
+    }
   }
 
 }

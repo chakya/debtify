@@ -17,11 +17,10 @@
 
 <ion-content padding>
 
-  <ion-list>
-      <ion-item (click)="contactSelected(name)" #item *ngFor="let name of contactList | async">
-          {{name}}
-      </ion-item>
-
+  <ion-list class="list-full-border">
+    <ion-item (click)="contactSelected(name)" #item *ngFor="let name of contactList | async">
+      {{name}}
+    </ion-item>
   </ion-list>
 
 </ion-content>

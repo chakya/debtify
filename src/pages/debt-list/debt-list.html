@@ -20,11 +20,11 @@
 
     <ion-segment [(ngModel)]="debtType">
 
-      <ion-segment-button value="lend">
+      <ion-segment-button value="lend" (click)="changeTab('lend')">
         You lend
       </ion-segment-button>
 
-      <ion-segment-button value="owe">
+      <ion-segment-button value="owe" (click)="changeTab('owe')">
         You owe
       </ion-segment-button>
 
@@ -38,6 +38,8 @@
 <ion-content padding class="animated fadeIn">
 
   <div [ngSwitch]="debtType">
+    
+    <ion-spinner name="circles" *ngIf="loading"></ion-spinner>
 
     <ion-list *ngSwitchCase="'lend'" class="list-full-border">
 
