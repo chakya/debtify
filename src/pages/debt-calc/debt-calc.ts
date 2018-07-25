@@ -1,3 +1,4 @@
+import { AuthProvider } from './../../providers/auth/auth';
 import { AppPreferences } from '@ionic-native/app-preferences';
 import { CURRENCY } from './currency';
 import { Component } from '@angular/core';
@@ -35,6 +36,7 @@ export class DebtCalcPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
+    public auth: AuthProvider,
     public debtifyDb: DebtifyDatabaseProvider,
     public alertCtrl: AlertController,
     private appPreferences: AppPreferences) {
@@ -135,7 +137,7 @@ export class DebtCalcPage {
           text: 'Submit',
           handler: (data) => {
             let amount = parseFloat(this.result) > 0 ? this.result : this.amountDisplay;
-            this.debtifyDb.addItem(this.type, this.name, parseFloat(amount), data.Note, this.currency);
+            this.debtifyDb.addItem(this.auth.currentUserId(), this.type, this.name, parseFloat(amount), data.Note, this.currency);
             this.appPreferences.store("currency", "symbol", this.currency)
               .then(console.log)
               .catch(console.log);

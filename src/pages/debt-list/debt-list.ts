@@ -1,3 +1,4 @@
+import { AuthProvider } from './../../providers/auth/auth';
 import { AdMobPro } from '@ionic-native/admob-pro';
 import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
 import { DetailPage } from './../detail/detail';
@@ -26,10 +27,11 @@ export class DebtListPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public debtifyDb: DebtifyDatabaseProvider,
+    public auth: AuthProvider,
     private platform: Platform,
-    private admob: AdMobPro) { 
-    this.lendList = debtifyDb.getLendTotal();
-    this.oweList = debtifyDb.getOweTotal();
+    private admob: AdMobPro) {
+    this.lendList = debtifyDb.getLendTotal(auth.currentUserId());
+    this.oweList = debtifyDb.getOweTotal(auth.currentUserId());
     this.platform.ready().then(() => {
       var admobid = {
           banner: 'ca-app-pub-1435565424178238/9468361331',

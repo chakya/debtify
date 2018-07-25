@@ -1,3 +1,4 @@
+import { AuthProvider } from './../../providers/auth/auth';
 import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController, NavParams, ItemSliding } from 'ionic-angular';
@@ -21,12 +22,15 @@ export class DetailPage {
   lendList: Observable<any>;
   name: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
     public debtifyDb: DebtifyDatabaseProvider,
+    public auth: AuthProvider,
     public alertCtrl: AlertController) {
     this.name = navParams.get("Name");
-    this.oweList = this.debtifyDb.getOwe(this.name);
-    this.lendList = this.debtifyDb.getLend(this.name);
+    this.oweList = this.debtifyDb.getOwe(this.auth.currentUserId(), this.name);
+    this.lendList = this.debtifyDb.getLend(this.auth.currentUserId(), this.name);
   }
 
   ionViewDidLeave(){
@@ -65,7 +69,7 @@ export class DetailPage {
             data["Id"] = debt.Id;
             data["Currency"] = debt.Currency;
             data["Amount"] = parseFloat(data["Amount"]);             
-            this.debtifyDb.editDebtDetail(type, debt.Id, data);
+            this.debtifyDb.editDebtDetail(this.auth.currentUserId(), type, debt.Id, data);
           }
         }
       ]
@@ -89,7 +93,7 @@ export class DetailPage {
         {
           text: 'Delete',
           handler: () => {
-            this.debtifyDb.deleteDebtDetail(type, debt.Id);
+            this.debtifyDb.deleteDebtDetail(this.auth.currentUserId(), type, debt.Id);
           }
         }
       ]

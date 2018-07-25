@@ -1,3 +1,4 @@
+import { AuthProvider } from './../../providers/auth/auth';
 import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
 import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
@@ -24,8 +25,9 @@ export class ContactPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public alertCtrl: AlertController,
+    public auth: AuthProvider,
     public debtifyDatabase:DebtifyDatabaseProvider) {
-    this.contactList = debtifyDatabase.getContact();
+    this.contactList = debtifyDatabase.getContact(auth.currentUserId());
   }
 
   ionViewDidLoad() {
@@ -47,7 +49,7 @@ export class ContactPage {
           text: 'Submit',
           handler: name => {
             console.log(name);
-            this.debtifyDatabase.addContact(name.Name);
+            this.debtifyDatabase.addContact(this.auth.currentUserId(), name.Name);
           }
         }
       ]
@@ -71,7 +73,7 @@ export class ContactPage {
           text: 'Submit',
           handler: curName => {
             console.log(curName);
-            this.debtifyDatabase.editContact(prvName, curName.Name);
+            this.debtifyDatabase.editContact(this.auth.currentUserId(), prvName, curName.Name);
           }
         }
       ]
@@ -95,7 +97,7 @@ export class ContactPage {
           text: 'Delete',
           handler: () => {
             console.log(name);
-            this.debtifyDatabase.deleteContact(name);
+            this.debtifyDatabase.deleteContact(this.auth.currentUserId(), name);
           }
         }
       ]
