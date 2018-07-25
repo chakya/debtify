@@ -1,13 +1,18 @@
 <ion-header>
 
   <ion-navbar color="dark">
-    <ion-title>{{debtType}} {{person}}</ion-title>
+    <ion-title>{{type}} {{name}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
 
+  <ion-select [selectOptions]="selectOptions" [(ngModel)]="currency" [placeholder]="'Currency'" [selectedText]="currency">
+    <ion-option *ngFor="let cur of currencyList" [value]="cur.symbol" [selected]="cur.symbol == currency">
+      {{cur.name}} ({{cur.symbol}})
+    </ion-option>
+  </ion-select>
   <div text-right margin padding class="text-24px">{{amountDisplay}}</div>
   <div text-right margin padding class="text-2x">{{result}}</div>
 

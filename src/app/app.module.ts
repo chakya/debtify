@@ -12,6 +12,7 @@ import { RegisterPage } from './../pages/register/register';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AppPreferences } from '@ionic-native/app-preferences';
 import { DebtCalcPage } from '../pages/debt-calc/debt-calc';
 import { DebtListPage } from '../pages/debt-list/debt-list';
 
@@ -24,6 +25,7 @@ import { UtilsProvider } from '../providers/utils/utils';
 import { DebtifyDatabaseProvider } from '../providers/debtify-database/debtify-database';
 import { SelectContactPage } from '../pages/select-contact/select-contact';
 
+import { AdMobPro } from '@ionic-native/admob-pro';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { SelectContactPage } from '../pages/select-contact/select-contact';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     UtilsProvider,
+    AdMobPro,
+    AppPreferences,
     DebtifyDatabaseProvider
   ]
 })

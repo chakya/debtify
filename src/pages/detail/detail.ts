@@ -1,6 +1,7 @@
+import { AuthProvider } from './../../providers/auth/auth';
 import { DebtifyDatabaseProvider } from './../../providers/debtify-database/debtify-database';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, AlertController, NavParams, ItemSliding } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 /**
@@ -17,13 +18,19 @@ import { Observable } from 'rxjs/Observable';
 })
 export class DetailPage {
 
-  debtList: Observable<any>;
+  oweList: Observable<any>;
+  lendList: Observable<any>;
   name: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-    public debtifyDb: DebtifyDatabaseProvider) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public debtifyDb: DebtifyDatabaseProvider,
+    public auth: AuthProvider,
+    public alertCtrl: AlertController) {
     this.name = navParams.get("Name");
-    this.debtList = debtifyDb.getDebtDetail(this.name);
+    this.oweList = this.debtifyDb.getOwe(this.auth.currentUserId(), this.name);
+    this.lendList = this.debtifyDb.getLend(this.auth.currentUserId(), this.name);
   }
 
   ionViewDidLeave(){
@@ -32,6 +39,66 @@ export class DetailPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
+  }
+
+  editDebt(type, debt, slidingItem: ItemSliding) {
+    slidingItem.close();
+    let newContact = this.alertCtrl.create({
+      title: 'Edit Contact',
+      inputs: [
+        {
+          name: 'Amount',
+          value: Math.abs(debt.Amount)
+        },
+        {
+          name: 'Note',
+          value: debt.Note
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: _ => {
+            console.log("cancelled");
+          }
+        },
+        {
+          text: 'Submit',
+          handler: (data) => {            
+            data["Name"] = debt.Name;
+            data["Id"] = debt.Id;
+            data["Currency"] = debt.Currency;
+            data["Amount"] = parseFloat(data["Amount"]);             
+            this.debtifyDb.editDebtDetail(this.auth.currentUserId(), type, debt.Id, data);
+          }
+        }
+      ]
+    });
+    newContact.present();
+  }
+
+  deleteDebt(type, debt, slidingItem: ItemSliding) {
+    console.log(debt);
+    slidingItem.close();
+    let deleteDebt = this.alertCtrl.create({
+      message: "Are you sure?",
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.debtifyDb.deleteDebtDetail(this.auth.currentUserId(), type, debt.Id);
+          }
+        }
+      ]
+    });
+    deleteDebt.present();
   }
 
 }

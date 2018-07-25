@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/reduce';
+import 'rxjs/add/operator/take'; 
+import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
 
 /*
@@ -16,100 +16,115 @@ interface Debt {
   Amount: number;
   Name: string;
   Note: string;
+  Currency: string;
 }
 
 @Injectable()
 export class DebtifyDatabaseProvider {
 
-  constructor(public auth: AngularFireAuth, public db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase) {
 
   }
 
-  getContact() {
-    return this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").valueChanges()
+  getContact(id) {
+    return this.db.list("Contact/" + id, 
+      ref => ref.orderByValue())
+      .valueChanges()
   }
 
-  addContact(name) {
-    this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").push(name);
+  addContact(id, name) {
+    console.log(name);
+    this.db.list("Contact/" + id).push(name);
   }
 
-  editContact(prvName, currName) {
-    this.db.list("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+  deleteContact(id, name) {
+    this.db.list("Contact/" + id, 
+      ref => ref.orderByValue().equalTo(name))
+      .snapshotChanges()
+      .take(1)
+      .subscribe(data => {
+        let key = data[0].key;
+        console.log(key);
+        this.db.object("Contact/" + id + "/" + key).remove();
+      });
+  }
+
+  editContact(id, prvName, currName) {
+    this.db.list("Contact/" + id, 
       ref => ref.orderByValue().equalTo(prvName))
       .snapshotChanges()
+      .take(1)
       .subscribe(data => {
         let newName = {}
         let key = data[0].key;
         newName[key] = currName;
-        this.db.object("Contact/iAMtfnGLlsQaRmvfaGNhUOSUWVn1").update(newName);
+        this.db.object("Contact/" + id).update(newName);
       });
   }
 
-  getLendTotal() {
-    return this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
+  editDebtDetail(id, debtType, key, currObject) {
+    let newObject = {}
+    newObject[key] = currObject;
+    this.db.object(debtType + "/" + id).update(newObject);
+  }
+
+  deleteDebtDetail(id, debtType, key) {
+    console.log(debtType + "/"+ id + "/" + key);
+    this.db.object(debtType + "/"+ id + "/" + key).remove();
+  }
+
+  getLendTotal(id) {
+    return this.db.list("Lend/" + id,
+      ref => ref.orderByChild("Name"))
       .valueChanges()
       .map((element: Debt[]) => 
         element.map(data => data.Name).filter((v, i, a) => a.indexOf(v) === i))
       .switchMap(names => Observable.combineLatest(names.map(name => 
-        this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+        this.db.list("Lend/" + id, 
           ref => ref.orderByChild('Name').equalTo(name))
           .valueChanges()
           .map((element: Debt[]) => element.reduce((prev, curr) => {
             return {
               Name: name,
               Amount: prev.Amount + curr.Amount,
-              Note: ""
+              Note: "",
+              Currency: prev.Currency
             }
           }))
       )))
   }
 
-  getOweTotal() {
-    return this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1")
+  getOweTotal(id) {
+    return this.db.list("Owe/" + id,
+      ref => ref.orderByChild("Name"))
       .valueChanges()
       .map((element: Debt[]) => 
         element.map(data => data.Name).filter((v, i, a) => a.indexOf(v) === i))
       .switchMap(names => Observable.combineLatest(names.map(name => 
-        this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+        this.db.list("Owe/" + id, 
           ref => ref.orderByChild('Name').equalTo(name))
           .valueChanges()
           .map((element: Debt[]) => element.reduce((prev, curr) => {
             return {
               Name: name,
               Amount: prev.Amount + curr.Amount,
-              Note: ""
+              Note: "",
+              Currency: prev.Currency
             }
           }))
       )))
   }
 
-  getDebtDetail(id) {
-    return Observable.combineLatest(
-      this.getLend(id),
-      this.getOwe(id),
-      (lendItems, oweItems)=> {
-        return [...lendItems, ...oweItems]
-      }
-    );
+  getLend(id, name) {
+    return this.db.list("Lend/" + id, 
+      ref => ref.orderByChild('Name').equalTo(name))
+      .valueChanges();
   }
 
-  getLend(name) {
-    return this.db.list("Lend/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
+  getOwe(id, name) {
+    return this.db.list("Owe/" + id, 
       ref => ref.orderByChild('Name').equalTo(name))
-      .valueChanges()
-      .map((element: Debt[]) => element.map(data => {
-        return {
-          Amount: data.Amount * -1,
-          Id: data.Name,
-          Note: data.Note
-        }
-      }))
-  }
-
-  getOwe(name) {
-    return this.db.list("Owe/iAMtfnGLlsQaRmvfaGNhUOSUWVn1", 
-      ref => ref.orderByChild('Name').equalTo(name))
-      .valueChanges()
+      .valueChanges();
   }
 
   registerUser(fullname, uid) {
@@ -118,13 +133,16 @@ export class DebtifyDatabaseProvider {
     this.db.object("/Users").update(user);
   }
 
-  addItem(type, name,amount){
+  addItem(id, type, name, amount, note, currency){
     let item={}
     console.log(type, name, amount)
-    item["Amount"]=amount
-    item["Name"]=name
-    item["Note"]=""
-    this.db.list("/"+"Owe"+"/"+"iAMtfnGLlsQaRmvfaGNhUOSUWVn1").push(item);
+    item["Amount"] = amount;
+    item["Name"] = name;
+    item["Note"] = note;
+    item["Currency"] = currency;
+    let promise = this.db.list(type + "/" + id).push(item);
+    item["Id"] = promise.key;
+    this.editDebtDetail(id, type, promise.key, item);
   }
 
 }

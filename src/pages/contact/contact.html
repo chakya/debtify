@@ -23,7 +23,14 @@
           {{name}}
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button (click)="edit(name, item)">Edit</button>
+        <button ion-button color="primary" (click)="edit(name, item)">
+          <ion-icon name="create"></ion-icon>
+          Edit
+        </button>
+        <button ion-button color="danger" (click)="delete(name, item)">
+          <ion-icon name="archive"></ion-icon>
+          Delete
+        </button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
