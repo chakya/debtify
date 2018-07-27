@@ -53,11 +53,13 @@ export class DetailPage {
       inputs: [
         {
           name: 'Amount',
-          value: Math.abs(debt.Amount)
+          value: Math.abs(debt.Amount),
+          type: 'number'
         },
         {
           name: 'Note',
-          value: debt.Note
+          value: debt.Note,
+          type: 'string'
         }
       ],
       buttons: [
