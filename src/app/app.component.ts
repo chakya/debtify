@@ -7,6 +7,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoginPage } from '../pages/login/login';
+
+import { timer } from 'rxjs/observable/timer';
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -17,6 +20,9 @@ export class MyApp {
   rootPage: any;
 
   pages: Array<{title: string, component: any}>;
+
+  showSplash = true;
+  showSplashClass = true;
 
   constructor(
     public platform: Platform, 
@@ -50,6 +56,10 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      timer(3000).subscribe(() => this.showSplashClass = false);
+      timer(3500).subscribe(() => this.showSplash = false);
+
     });
   }
 
