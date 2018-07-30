@@ -33,7 +33,9 @@ export class DebtListPage {
     private admob: AdMobPro) {
     this.lendList = this.debtifyDb.getLendTotal(auth.currentUserId());
     this.oweList = this.debtifyDb.getOweTotal(auth.currentUserId());
-    this.debtifyDb.getLendTotal(this.auth.currentUserId()).take(1).subscribe(() => this.loading = false);
+
+    this.changeTab("lend");
+
     this.platform.ready().then(() => {
       var admobid = {
           banner: 'ca-app-pub-1435565424178238/9468361331',
@@ -68,9 +70,19 @@ export class DebtListPage {
   changeTab(type) {
     this.loading = true;
     if (type == "lend") {
-      this.debtifyDb.getLendTotal(this.auth.currentUserId()).take(1).subscribe(() => this.loading = false);
+      this.debtifyDb.db.list("Lend/" + this.auth.currentUserId())
+        .valueChanges()
+        .subscribe(data => {
+          this.loading = false;
+          console.log(data);
+        });
     } else {
-      this.debtifyDb.getOweTotal(this.auth.currentUserId()).take(1).subscribe(() => this.loading = false);
+      this.debtifyDb.db.list("Owe/" + this.auth.currentUserId())
+        .valueChanges()
+        .subscribe(data => {
+          this.loading = false;
+          console.log(data);
+        });
     }
   }
 

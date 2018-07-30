@@ -84,9 +84,14 @@ export class DebtifyDatabaseProvider {
           ref => ref.orderByChild('Name').equalTo(name))
           .valueChanges()
           .map((element: Debt[]) => element.reduce((prev, curr) => {
-            return {
+            return prev.Currency == curr.Currency ? {
               Name: name,
               Amount: prev.Amount + curr.Amount,
+              Note: "",
+              Currency: prev.Currency
+            } : {
+              Name: name,
+              Amount: prev.Amount,
               Note: "",
               Currency: prev.Currency
             }
@@ -105,9 +110,14 @@ export class DebtifyDatabaseProvider {
           ref => ref.orderByChild('Name').equalTo(name))
           .valueChanges()
           .map((element: Debt[]) => element.reduce((prev, curr) => {
-            return {
+            return prev.Currency == curr.Currency ? {
               Name: name,
               Amount: prev.Amount + curr.Amount,
+              Note: "",
+              Currency: prev.Currency
+            } : {
+              Name: name,
+              Amount: prev.Amount,
               Note: "",
               Currency: prev.Currency
             }
